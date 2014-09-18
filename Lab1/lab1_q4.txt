@@ -1,0 +1,10 @@
+DEFINE gravitational constant in units of AU, Msun and years (39.5 AU^3 Msun^-1, year^-1).
+DEFINE initial time, final time and timestep.
+CREATE sampled array of time based on the above criteria.
+SET dependent variable arrays (x,y position and velocity as well as total separation r) to be an array of zeros as long as the sampled array of time.
+SET initial positions and velocities in x and y.
+FOR values in time array:
+	- CALCULATE v_x,i+1 and v_y,i+1
+	- CALCULATE x_i+1, y_i+1
+	- CALCULATE r_i+1
+PLOT y vs x, x vs t and y vs t

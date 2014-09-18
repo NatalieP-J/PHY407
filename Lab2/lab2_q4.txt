@@ -1,0 +1,18 @@
+- SET slit separation to 20 microns, number of slits to 10, wavelength to 500 nanometres, screen width to 10 cm and focal length to 1 m
+- CALCULATE total width of grating with (number of slits)*(slit separation)
+- CALCULATE alpha using alpha = pi/(slit separation)
+- DEFINE the transmission function q(u) to return (sin(alpha*u))^2
+- DEFINE intensity integrand to be exp(i*2*pi*x*u/(wavelength*focal length)) times the square root of q(u)
+- CREATE an array of x values
+- FOR each x value:
+	- CALCULATE intensity using Simpson's rule
+		- SET upper and lower bounds of the integral
+		- CHOOSE a number of steps
+		- CALCULATE the width of each subdivision
+		- SET the sum equal to intensity of the lower limit plus intensity of the upper limit
+		- FOR k = 0 up to the total number of subdivisions
+			- ADD to the sum 4 times the intensity of (lower limit + k*width) for odd k
+			- ADD to the sum 2 times the intensity of (lower limit + k*width) for even k
+		- MULTIPLY the final sum by (1./3)*width
+	- CALCULATE intensity by finding the absolute value of the integral and squaring
+- PLOT intensity vs x

@@ -1,0 +1,14 @@
+DEFINE gravitational constant in units of AU, Msun and years (39.5 AU^3 Msun^-1, year^-1).
+DEFINE initial time, final time and timestep.
+CREATE sampled array of time based on the above criteria.
+SET Dependent variable arrays to be an array of zeros as long as the sampled array of time. Dependent variables: x,y position and velocity of the Earth, x,y position and velocity of Jupiter, separation between the Earth and the Sun, separation between Jupiter and the Sun and separation between the Earth and Jupiter.
+SET initial positions and velocities in x and y.
+FOR values in time array:
+	- CALCULATE x,y velocity for Jupiter (due to Sun only)
+	- CALCULATE x,y position for Jupiter 
+	- CALCULATE the separation between Jupiter and the Sun
+	- CALCULATE x,y velocity for Earth (due to Jupiter and the Sun)
+	- CALCULATE x,y position of Earth 
+	- CALCULATE the separation between the Earth and the Sun
+	- CALCULATE the separation between Jupiter and the Sun
+PLOT y vs x, x vs t and y vs t
