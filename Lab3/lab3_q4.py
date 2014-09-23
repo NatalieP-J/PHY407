@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import matplotlib.cm as cm
 # Set constants for the code
 # Light striking angle
-phi = np.pi/4.
+phi =-np.pi/4.
 # Separation between grid points
 h1 = 30000.
 # Separation to be used for central differences
@@ -63,4 +63,4 @@ I = inten(dwdx,dwdy)
 plt.gray()
 plt.axis('off')
 plt.title('Intensity of light on the earth for a striking angle of 45 degrees')
-plt.imshow(I,vmax = 0.03,vmin = -0.03)
+plt.imshow(I,vmax = 0.03,vmin = -0.03,cmap = cm.gray_r)

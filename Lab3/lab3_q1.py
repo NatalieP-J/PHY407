@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 V = 1000. #cm^3
 V /= 100^3 #m^3
 # Number density of sample
-rho = 6.022e-28 #m^-3
+rho = 6.022e28 #m^-3
 # Boltzmann constant (rounded to 4 sig figs)
 kb = 1.381e-23 #m^2 kg s^-2 K^-1
 # Debye temperature
