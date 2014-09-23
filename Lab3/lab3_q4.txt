@@ -1,0 +1,12 @@
+- SET constants for program, phi = pi/4, h = 30000 for forward or backward method and h = 60000
+- DEFINE a function to return the intensity given arrays of dw/dx and dw/dy
+- READ in altitude.txt with numpy loadtxt as a 2D array
+- INITIALIZE two arrays the same size as altitude.txt but full of zeros
+- LOOP through the rows of the array
+	- LOOP through each row 
+		- IF the x value is at the start of a row, use forward difference
+		- IF the x value is at the end of a row, use backward difference
+		- ELSE use central difference
+		- ADD result to the array holding dw/dx values
+- TRANSPOSE the array and do the same looping for y
+- PLOT the intensity for the calculated dw/dx and dw/dy arrays

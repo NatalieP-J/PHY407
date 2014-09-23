@@ -1,0 +1,10 @@
+- DEFINE function that calculates the forward difference derivative for a given point, function and h value
+- DEFINE function that calculates the central difference derivative for a given point, function and h value
+- CREATE array of h values from 1e-16 to 0 with steps as powers of ten
+- CREATE empty arrays to hold results of forward difference and central difference methods
+- SET the actual derivative of sin(x) at x = pi/4 (cos(pi/4) = 1/2^0.5)
+- CALL forward difference function for sin(x) at x = pi/4 for each h and put results into premade array
+- CALL central difference function for sin(x) at x = pi/4 for each h and put results into premade array
+- FIND the absolute value of the forward difference values minus the true value = e_f
+- FIND the absolute value of the central difference values minus the true value = e_c
+- PLOT e_f and e_c vs h

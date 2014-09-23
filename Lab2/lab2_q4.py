@@ -2,6 +2,9 @@ from cmath import exp
 import numpy as np
 import matplotlib.pyplot as plt
 
+# This code calculates the intensity of light on a screen by integrating I(u,x)
+# using Simpson's rule and plots it.
+
 # Slit separation
 sep = 20. * 1e-6 #m
 # Number of slits

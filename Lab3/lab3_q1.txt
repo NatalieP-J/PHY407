@@ -1,0 +1,11 @@
+- IMPORT Gaussian quadrature weights and points routine
+- SET constants: volume is 1000 cubic centimetres, number density if 6.022e10^28 per metre cubed, the Debye temperature is 428 K, number of integration points is 50
+- DEFINE Gaussian quadrature routine
+- DEFINE a function that returns the integrand in the equation for Cv for a given x value
+- DEFINE a function that returns Cv for a given temperature T 
+	- SET the leading term for given T
+	- EVALUATE the integral of the integrand function from 0 to Debye temp over temperature using Gaussian quadrature
+	- RETURN the leading constant multiplied by the integral
+- CREATE an array of temperature from 5 to 500 Kelvin
+- FIND Cv for each temperature in this array
+- PLOT Cv vs temperature
