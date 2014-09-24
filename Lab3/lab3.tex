@@ -58,7 +58,7 @@ I = \int_0^1\frac{x^3}{(1-x)^5 (e^{x/(1-x)}-1)}dx
 \label{eqn:q2int}
 \end{equation}
 
-The next step was to decide how to evaluate this integral. The integrand is clearly a well behaved function (Figure \ref{fig:q2meta}), so Gaussian quadrature would be the most accurate method. 
+The next step was to decide how to evaluate this integral. The integrand is clearly a well behaved function on the interval of interest (Figure \ref{fig:q2meta}), so Gaussian quadrature would be the most accurate method. 
 
 \begin{figure}[H]
 \centering
@@ -67,7 +67,7 @@ The next step was to decide how to evaluate this integral. The integrand is clea
 \label{fig:q2meta}
 \end{figure}
 
-The result of evaluating the integral was: 6.494.
+The result of evaluating the integral was: 6.4939394022668. This result was arrived at by testing the convergence of the integral for a number of sample points from $N = 50$ to $N = 100$. It was found that the result did not change for $N$ beyond $N = 86$ (which was therefore used for further calculations) for a tolerance of $\epsilon = 1\e{-14}$. After this increasing beyond $N = 86$, any lack of accuracy in the integral is dominated by rounding error.
 
 \subsection{Part c)}
 
@@ -80,7 +80,7 @@ W &=& \frac{k_B^4 T^4}{4\pi^2c^2\hbar^3}\int_0^{\infty}\frac{z^3}{e^z - 1}dz\non
 \label{eqn:sbconst}
 \end{eqnarray}
 
-Using Equation \ref{eqn:sbconst} for the Stefan-Boltzmann constant and making the usual change of variables to transform the integral to Equation \ref{eqn:q2int}, it was a simple matter to compute $\sigma = 5.66\e{-8}$. This deviates very little from the known value, $\sigma = 5.67\e{-8}$.
+Using Equation \ref{eqn:sbconst} for the Stefan-Boltzmann constant and making the usual change of variables to transform the integral to Equation \ref{eqn:q2int}, it was a simple matter to compute $\sigma = 5.66\e{-8}$. This deviates very little from the known value with the same number of significant figures, $\sigma = 5.67\e{-8}$.
 
 \section{Question 3}
 \subsection{Part c)}

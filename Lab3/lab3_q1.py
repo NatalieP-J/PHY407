@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 # Volume of sample
 V = 1000. #cm^3
-V /= 100^3 #m^3
+V /= 100.**3 #m^3
 # Number density of sample
 rho = 6.022e28 #m^-3
 # Boltzmann constant (rounded to 4 sig figs)

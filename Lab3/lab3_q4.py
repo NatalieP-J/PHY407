@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+# This code makes 2D plots of an array of data by taking partial derivatives
+# with respect to x and y and calculating the intensity for a striking angle
+# of -pi/4 using the function called inten
+
 # Set constants for the code
 # Light striking angle
 phi =-np.pi/4.
