@@ -69,17 +69,41 @@ As usual, use the method of characteristics. It is useful to rearrange the PDE a
 u_x + \frac{b}{a}u_y = -\frac{c}{a}u - \frac{d}{a}\nonumber
 \end{eqnarray}
 
-The lefthand side can be written $(1,\frac{b}{a})\cdot\nabla u$, and so we want to find the curve $(x,y(x))$ that satisfies $\frac{d}{dx}(x,y(x)) = (1,\frac{b}{a})$. Obviously, we want $y(x) = \frac{b}{a}x + C$. With this choice for $y(x)$, our PDE becomes the following ODE:
+The lefthand side can be written $(1,\frac{b}{a})\cdot\nabla u$, and so we want to find the curve $(x,y(x))$ that satisfies $\frac{d}{dx}(x,y(x)) = (1,\frac{b}{a})$. Obviously, we want $y(x) = \frac{b}{a}x + c_1$. With this choice for $y(x)$, our PDE becomes the following ODE:
 
 \begin{eqnarray}
 \frac{d}{dx}u(x,y(x)) + \frac{c}{a}u(x,y(x)) = - \frac{d}{a}\label{eqn:ode}
 \end{eqnarray}
 
-which we can solve using the method of integrating factors. For simplicity, we define $U(x) = u(x,y(x))$, and try to find $\mu(x)$ such that $\frac{d}{dx}(\mu(x)U(x))) = \mu(x)\frac{d}{dx}U(x) + \frac{c}{a}\mu(x)U(x)$. This looks like the product rule - what we really want is $\mu(x)$ such that $\frac{d}{dx}\mu(x) = \frac{c}{a}\mu(x)$, which implies $\mu(x) = exp(\frac{c}{a}x)$. Multiplying Equation \ref{eqn:ode} by this $\mu$, we find:
+which we can solve using the method of integrating factors. For simplicity, we define $U(x) = u(x,y(x))$, and try to find $\mu(x)$ such that $\frac{d}{dx}(\mu(x)U(x)) = \mu(x)\frac{d}{dx}U(x) + \frac{c}{a}\mu(x)U(x)$. This looks like the product rule - what we really want is $\mu(x)$ such that $\frac{d}{dx}\mu(x) = \frac{c}{a}\mu(x)$, which implies $\mu(x) = e^{cx/a}$. Multiplying Equation \ref{eqn:ode} by this $\mu$, we find:
 
 \begin{eqnarray}
-\mu\frac{d}{dx}U + \mu\frac{c}{a}U= \frac{d}{dx}(\mu U)= - \frac{d}{a}\mu
+\mu\frac{d}{dx}U(x) + \mu\frac{c}{a}U(x)= \frac{d}{dx}(\mu U(x))&=& - \frac{d}{a}\mu\nonumber\\
+d(e^{cx/a}U(x)) &=& -\frac{d}{a}e^{cx/a} dx\nonumber\\
+e^{cx/a}U(x) &=& -\frac{d}{c}e^{cx/a} + c_2\nonumber\\
+U(x) = u(x,y(x)) &=& -\frac{d}{c} + c_2 e^{cx/a}
+\label{eqn:u}
 \end{eqnarray}
+
+Now take Equation ~\ref{eqn:u} at $x = 0$, since we know the behaviour of $y(x)$ at $x = 0$ ($y(0) = c_1$).
+
+\begin{eqnarray}
+u(0,y(0)) &=& -\frac{d}{c} + c_2\nonumber\\
+\mathrm{However\;we\;can\;rewrite\,} u(0,y(0) &=& u(0,c_1) = f(c_1)\nonumber\\
+f(c_1) &=& -\frac{d}{c} + c_2\nonumber\\
+\mathrm{We\;also\;know\,} c_1 &=& y-\frac{b}{a}x\nonumber\\
+\implies f(c_1) &=& f(y-\frac{b}{a}x) = -\frac{d}{c} + c_2\nonumber\\
+\implies c_2 &=& f(y-\frac{b}{a}x) + \frac{d}{c}
+\label{eqn:c2}
+\end{eqnarray}
+
+So substitute Equation \ref{eqn:c2} into Equation \ref{eqn:u}:
+
+\begin{eqnarray}
+u(x,y(x)) = -\frac{d}{c} + (f(y-\frac{b}{a}x) + \frac{d}{c})e^{-cx/a}\nonumber
+\end{eqnarray}
+
+The general solution to the PDE is: $\boxed{u(x,y(x)) = -\frac{d}{c} + (f(y-\frac{b}{a}x) + \frac{d}{c})e^{-cx/a}}$
 
 \section{Question 3}
 
@@ -220,15 +244,15 @@ Multiply through by $C^2$ to get the slightly nicer form and expand the multipli
 The principal part ($pr$, the part we want to reduce to a hyperbolic form) is the first line of the PDE above, and for now this is the only part we will concern ourselves with for the continuing algebra.
 
 \begin{eqnarray}
-pr = (d^2 - 4cd + 3c^2)\partial_{\xi}^2u + (-2bd+4ad+4bc-6ac)\partial_{\xi\eta}u + (b^2 - 4ab + 3a^2)\partial_{\eta}^2u\nonumber
+pr = (a^2 + 4ab + 3b^2)\partial_{\xi}^2u &+& (2ac+4ad+4bc+6bd)\partial_{\xi\eta}u + (c^2 + 4cd + 3d^2)\partial_{\eta}^2u\nonumber
 \end{eqnarray}
 
 To put this in hyperbolic form, use the fact that $\partial_{\xi}^2 - m\partial_{\eta}^2$ ($m$ a constant), is still hyperbolic. Thus if $m = g/h$ ($h\neq0$), $h\partial_{\xi}^2 - g\partial_{\eta}^2$ is also hyperbolic. So the only conditions we have on our constants are as follows: 
 
 \begin{eqnarray}
-0 &<& a^2 + 4ab + 3b^2 \label{eqn:p1}\\
+0 &>& a^2 + 4ab + 3b^2 \label{eqn:p1}\\
 0 &=& 2ac + 4ad + 4bc + 6bd \label{eqn:p3}\\
-0 &>& c^2 + 4cd + 3d^2 \label{eqn:p2}
+0 &<& c^2 + 4cd + 3d^2 \label{eqn:p2}
 \end{eqnarray}
 
 Start with Equation \ref{eqn:p2}, and set the right hand side equal to $f(c,d)$. Right away we know that $c$ or $d$, must be less than zero. Since $d$ is an arbitrary constant, set $d = -D$. The easiest way to ensure $f(c,d) < 0$ is to find its minima by setting its partial derivatives with respect to $c$ and $c$ equal to zero.
@@ -260,18 +284,18 @@ Now, attempt to find $\alpha,\,\beta$ for $u(\xi,\eta) = e^{\alpha\xi - \beta\et
 
 \begin{eqnarray}
 u_{\xi} &=& \alpha e^{\tau}v + e^{\tau}v_{\xi}\nonumber\\
-u_{\eta} &=& -\beta e^{\tau}v + e^{\tau}v_{\eta}\nonumber\\
+u_{\eta} &=& \beta e^{\tau}v + e^{\tau}v_{\eta}\nonumber\\
 u_{\xi\xi} &=& \alpha^2e^{\tau}v + 2\alpha e^{\tau}v_{\xi} + e^{\tau}v_{\xi\xi}\nonumber\\
-u_{\eta\eta} &=& \beta^2e^{\tau}v - 2\beta e^{\tau}v_{\eta} + e^{\tau}v_{\eta\eta}\nonumber
+u_{\eta\eta} &=& \beta^2e^{\tau}v + 2\beta e^{\tau}v_{\eta} + e^{\tau}v_{\eta\eta}\nonumber
 \end{eqnarray}
 
 Substitute the above expressions for derivatives of $u$ into Equation \ref{eqn:rpde} and divide through by $e^{\tau}$
 
 \begin{eqnarray}
-8(\alpha^2v + 2\alpha v_{\xi} + v_{\xi\xi}) - 8(\beta^2v - 2\beta v_{\eta} + v_{\eta\eta}) + 2(\alpha v + v_{\xi}) + 18(-\beta v + v_{\eta}) + v &=& 0\nonumber\\
-8v_{\xi\xi} - 8v_{\eta\eta} + (16\alpha + 2)v_{\xi} + (16\beta + 18)v_{\eta} + (8\alpha^2 - 8\beta^2 + 2\alpha - 18\beta + 1)v &=& 0\nonumber\\
+8(\alpha^2v + 2\alpha v_{\xi} + v_{\xi\xi}) - 8(\beta^2v + 2\beta v_{\eta} + v_{\eta\eta}) + 2(\alpha v + v_{\xi}) + 18(\beta v + v_{\eta}) + v &=& 0\nonumber\\
+8v_{\xi\xi} - 8v_{\eta\eta} + (16\alpha + 2)v_{\xi} + (-16\beta + 18)v_{\eta} + (8\alpha^2 - 8\beta^2 + 2\alpha + 18\beta + 1)v &=& 0\nonumber\\
 v_{\xi\xi} - v_{\eta\eta} + 11v &=& 0\nonumber
 \end{eqnarray}
 
-Where the last line follows if one chooses $\boxed{\alpha = -1/8,\,\beta = -9/8}$ to eliminate the first derivative terms.
+Where the last line follows if one chooses $\boxed{\alpha = -1/8,\,\beta = 9/8}$ to eliminate the first derivative terms.
 \end{document}
