@@ -1,0 +1,34 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from gaussxw import gaussxw
+
+h = 6.626 * 1e-34 #m^2 kg s^-1
+c = 3.000 * 1e8 #m s^-1
+kB = 1.381 * 1e-23 #m^2 kg s^-1 K^-1
+wv1 = 390 * 1e-9 #m
+wv2 = 750 * 1e-9 #m
+
+def etaint(x):
+    return x**3/(e**x - 1)
+
+Nsamp = 100
+
+xs,ws = gaussxw(Nsamp)
+
+T = np.arange(300,10000,0.1)
+
+a = h*c/(wv2*kB*T)
+b = h*c/(wv1*kB*T)
+
+etas = []
+
+for i in range(len(T)):
+    x = 0.5*(b[i]-a[i])*xs + 0.5*(b[i]+a[i])
+    w = 0.5*(b[i]-a[i])*ws
+    eta = 0
+    for n in range(len(Nsamp)):
+        eta += w[n]*etaint(x[n])
+    eta *= (15./np.pi**4)
+    etas.append(eta)
+
+plt.plot(T,etas)
