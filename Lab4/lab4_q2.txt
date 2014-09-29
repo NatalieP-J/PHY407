@@ -1,0 +1,11 @@
+SET well width to 5 angstroms, a to 10 eV the mass of an elextron to 9.1094 e-31 kg and charge of the electron to 1.6022 e -19 C
+SET planck's constant
+DEFINE a function for the matrix elements of H, Hnm
+SET nmax = mmax = 10
+CONSTRUCT a matrix based Hnm elements up to nmax and mmax
+SOLVE for this matrix's eigenvalues
+REPEAT the CONSTRUCT and SOLVE steps above for a matrix with nmax = mmax = 100
+SOLVE for eigenvectors as well (first three)
+COMPOSE wavefunctions using elements of eigenvalues and sin functions
+NORMALIZE by integrating the square of the wavefunction over 0 to L and dividing by the square root of this integrated value
+PLOT the wave function

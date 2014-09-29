@@ -1,0 +1,8 @@
+SET constants needed for the problem
+DEFINE the function of r such that f(r) = 0
+SET required accuracy
+CHOOSE x1, x2 the initial points
+WHILE abs(xf-xi) > accuracy:
+	UPDATE xf with 6.104 from textbook
+PRINT final xf
+x

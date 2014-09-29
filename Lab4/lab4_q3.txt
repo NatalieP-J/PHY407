@@ -1,0 +1,10 @@
+DEFINE function x = 1-exp(-cx)
+SET initial guess for x
+SET array of cs
+SET required accuracy to be 1e-6
+CREATE list to hold solutions
+FOR c in cs:
+	WHILE abs(x_i-x_i+1) > accuracy:
+		EVALUATE function for x_i and set this to the next x_i value
+	APPEND final x solution to list
+PLOT x vs c
