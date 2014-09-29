@@ -10,25 +10,38 @@ w = 2.662 * 1e-6 #s^-1
 def f(r):
 	return (G*M/r**2) - (G*m/(R-r)**2) - r*w**2
 
-#r1 = 0.10*R
-#r2 = 0.30*R
-r1 = 0.10*R
-r2 = 3*R
+def f(x):
+	return x*(x - 10)
+
+def secant(initial,fn,tol):
+	x1,x2 = initial
+	i = 0
+	while i < 10:
+		print i
+		fprime = (f(x2) - f(x1))/(x1-x2) 
+		print x1,x2,fprime
+		x3 = x2 - fn(x2)*(1./fprime)
+		print x3
+		print x3-x2
+		if abs(x3 - x2) > tol:
+			x1 = x2
+			x2 = x3
+			i+=1
+		elif abs(x3 - x2) < tol:
+			break
+	return x3,i
+
+#r1 = 10**8.3
+#r2 = 10**8.5
+r1 = 7.
+r2 = 13.
 L0 = r2 - f(r2)*((r2-r1)/(f(r2) - f(r1)))
-eps = 1e-9
+eps = 1e-6
 
 x1 = r1
 x2 = r2
-i = 0
-while True:
-	L1 = x2 - f(x2)*((x2-x1)/(f(x2) - f(x1)))
-	if abs(L1 - x2) > eps:
-		x1 = x2
-		x2 = L1
-		i += 1
-	if abs(L1 - x2) < eps:
-		print 'Final iteration difference: {0} - {1} = {2}'.format(L1,x2,abs(L1-x2))
-		break
 
-print 'L1 = ',L1,'\tf(L1) = ',f(L1),'\nnumber of iterations: ',i 
+x3,i = secant([r1,r2],f,eps)
+
+print 'L1 = ',x3,'\tf(L1) = ',f(x3),'\nnumber of iterations: ',i 
 
