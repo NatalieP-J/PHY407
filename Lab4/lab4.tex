@@ -57,7 +57,7 @@ The Hamiltonian has the following energy eigenvalues for the first ten eigenstat
 
 \subsection{Part d)}
 
-\begin{table}[!htbp]
+\begin{table}[H]
   \centering
   \begin{tabular}{|c||c||c||c|}
   \hline
@@ -126,6 +126,36 @@ The solution to $x = 1 - e^{-cx}$ when $c = 2$ is $x = 0.796813$.
 
 \subsection{Part a)}
 
+We can show that the error in the overrelaxation method ($\epsilon '$), subject to some approximations, is given by:
+
+\begin{eqnarray}
+\epsilon'\simeq \frac{x-x'}{1 - 1/[(1+\omega)f'(x)-\omega]},\label{eqn:eps}
+\end{eqnarray}
+
+where $x'$ is the current solution, $x$ is the previous solution, $f(x)$ is the function equal to $x$ we are attempting to solve and $\omega$ is the parameter of the over relaxation.
+
+We start with the definition of $x'$ for the over relaxation and the algebra follows from there.
+
+\begin{eqnarray}
+x' &=& x + (1+\omega)\Delta x = (1+\omega)f(x) - \omega x\nonumber\\
+x' &=& (1+\omega)(f(x^*) + (x-x^*)f'(x^*) + ...) - \omega x \mathrm{\:\:\:(Taylor\;expand\;f(x))}\nonumber\\
+x' &\simeq & (1+\omega)(x^* + (x-x^*)f'(x^*)) - \omega x \mathrm{\:\:\:(Drop\; higher\;order\;terms\;and\;use\;}x^* = f(x^*)\mathrm{)}\nonumber\\
+x' &\simeq & x^* + \omega \epsilon - (1+\omega)\epsilon f'(x^*) \mathrm{\:\:\:(Used\;} x^* = x + \epsilon\mathrm{\;to\; rewrite\;} x^*-x)\nonumber\\
+-\epsilon' &\simeq& \epsilon (\omega - (1+\omega)f'(x))\mathrm{\:\:\:(Used\;} x^* = x' + \epsilon' \mathrm{\; as\; above\; and\;} f'(x^*)\simeq f'(x)\mathrm{\; near\;} x^*)\nonumber\\
+\implies \epsilon &\simeq& \frac{\epsilon'}{(1+\omega)f'(x) - \omega}\nonumber
+\end{eqnarray}
+
+Now substitute the expression for $\epsilon$ into $x^* = x + \epsilon$.
+
+\begin{eqnarray}
+x^* &\simeq& x + \frac{\epsilon'}{(1+\omega)f'(x) - \omega}\nonumber\\
+x' + \epsilon' &\simeq& x + \frac{\epsilon'}{(1+\omega)f'(x^*)-\omega} \mathrm{\:\:\:(Since\;} x^* = x + \epsilon = x' + \epsilon')\nonumber\\
+\epsilon'\left(1 - \frac{1}{(1+\omega)f'(x) - \omega}\right) &\simeq& x - x'\nonumber\\
+\epsilon' &\simeq& \frac{x-x'}{1-1/[(1+\omega)f'(x) - \omega]}\nonumber 
+\end{eqnarray}
+
+So under the assumptions that $f(x)$ is well approximated by the first two terms of its Taylor series and that $f'(x^*)\approx f(x)$ near $x^*$, we have shown that Equation \ref{eqn:eps} is a good approximation of the uncertainty in the value $x'$ with respect to the true value.x
+
 \subsection{Part c)}
 
 When using over relaxation with $\omega = 0.5$, the result converged to the required accuracy in 4 iterations. Without this over relaxation, getting the required accuracy required 13 iterations. Some alternate guesses were made for $\omega$, but $0.5$ provided the most improvement over the regular relaxation method.
@@ -151,7 +181,7 @@ The calculated value of the $L1$ Lagrange point using the secant method is $3.26
 The effeciency $\eta$ of an incandescent bulb at a particular temperature $T$ is given by:
 
 \begin{eqnarray}
-\eta = \frac{15}{\pi^4}\int_{hc/\lambda_2 k_B T}^{hc/\lambda_1 k_B T} \frac{x^3}{e^x - 1} dx,
+\eta = \frac{15}{\pi^4}\int_{hc/\lambda_2 k_B T}^{hc/\lambda_1 k_B T} \frac{x^3}{e^x - 1} dx,\nonumber
 \end{eqnarray}
 
 where $h$ is Planck's constant, $c$ is the speed of light in a vacuum, $k_B$ is the Boltzmann constant, $\lambda_1 = 390$ nm and $\lambda_2 = 750$ nm.
