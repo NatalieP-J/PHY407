@@ -27,7 +27,6 @@ for c in cs:
 		# if tolerance is not achieved iterate again
 		if abs(xf-xi) > eps:
 			xi = xf
-			i+=1
 		#if tolerance achieved, stop loop
 		elif abs(xf-xi) < eps:
 			break

@@ -21,6 +21,20 @@ wv2 = 750 * 1e-9 #m
 def etaint(x):
     return x**3/(np.exp(x) - 1)
 
+# Define a function that will calculate eta, given a temperature T,
+# a set of Gaussian quadrature points xs and weights ws
+def eta(T,args):
+    xs,ws = args
+    a = h*c/(wv2*kB*T) # lower limit
+    b = h*c/(wv1*kB*T) # upper limit
+    x = 0.5*(b-a)*xs + 0.5*(b+a) # scale points
+    w = 0.5*(b-a)*ws # scale weights
+    eta = 0 # start integration sum 
+    for n in range(Nsamp):
+        eta += w[n]*etaint(x[n])
+    eta *= (15./np.pi**4)
+    return eta
+
 # Choose number of sample points for Gaussian quadrature
 Nsamp = 100
 
@@ -30,26 +44,14 @@ xs,ws = gaussxw(Nsamp)
 # Create temperature array
 T = np.arange(300,10000) # K
 
-# Set upper and lower limits for eta integral for each temperature
-a = h*c/(wv2*kB*T)
-b = h*c/(wv1*kB*T)
-
 # Create empty array to hold resulting etas
 etas = []
 
 # Calculate eta for each T value
 for i in range(len(T)):
     print 'Temperature rising ...',T[i],'K'
-    # Scale weights and points for Gaussian quadrature appropriately
-    x = 0.5*(b[i]-a[i])*xs + 0.5*(b[i]+a[i])
-    w = 0.5*(b[i]-a[i])*ws
-    # Calculate integral in eta with Gaussian quadrature
-    eta = 0
-    for n in range(Nsamp):
-        eta += w[n]*etaint(x[n])
-    # Multiply eta by leading factor
-    eta *= (15./np.pi**4)
-    etas.append(eta)
+    etacal = eta(T[i],(xs,ws)) 
+    etas.append(etacal)
 
 # Plot eta vs T
 plt.title('Effiecieny of an incandescent bulb')

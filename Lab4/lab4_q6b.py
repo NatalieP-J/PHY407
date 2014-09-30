@@ -25,7 +25,7 @@ Nsamp = 100
 def etaint(x):
     return x**3/(np.exp(x) - 1)
 
-# Define a function that will calculate eta, given a temperature T,
+# Define a function that will calculate -eta, given a temperature T,
 # a set of Gaussian quadrature points xs and weights ws
 def neta(T,args):
     xs,ws = args
@@ -47,6 +47,8 @@ def getx2(x1,x4):
 def getx3(x1,x4):
     return x1 + (x4-x1)*(1./z)
 
+# A function to evaluate another function depending on whether or not
+# it has multiple arguments (used in golden_min)
 def feval(fn,vals,args):
     x1,x2,x3,x4 = vals
     if args == False:
@@ -54,6 +56,9 @@ def feval(fn,vals,args):
     elif args != False:
         return fn(x1,args),fn(x2,args),fn(x3,args),fn(x4,args)
 
+# Finds the minima of fn within region brackets by the points given as
+# initial and to accuracy tol. If the function has more than one 
+# argument they are listed in args.
 def golden_min(initial,fn,tol,args = False):
     x1,x4 = initial
     x2,x3 = getx2(x1,x4),getx3(x1,x4)
@@ -71,17 +76,19 @@ def golden_min(initial,fn,tol,args = False):
                 x3 = getx3(x1,x4)
         elif x4 - x1 < tol:
             break
-    return x1 + (x4-x1)/2.
-        
-                
+    return x1 + (x4-x1)/2.               
 
 # Import Gaussian weights and points for an interval from -1 to 1
 xs,ws = gaussxw(Nsamp)
 
+# Specify target accuracy of 1 K
 eps = 1.
 
+# Decide bracketing region based on temperature plot from lab4_q6a
 T1 = 6000
 T4 = 8000
+
+# Call golden min to find the minimum of the negative effeciency
 Tf = golden_min([T1,T4],neta,eps,args = [xs,ws])
 
 print 'Maximum effeciency occurs at T = ',Tf,'K'

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def f(x,c):
 	return 1-np.exp(-c*x)
 
-cs = np.arange(0,3,0.01)
+c = 2
 x0 = 1
 eps = 1e-6
 

@@ -1,11 +1,13 @@
-from numpy import array,empty,copy
+from numpy import array,empty,copy,matrix
 
-A = array([[0,1,4,1],
+A0 = array([[0,1,4,1],
            [3,4,-1,-1],
            [1,-4,1,5],
            [2,-2,1,3]], float)
 
-v = array([4,3,9,7],float)
+v0 = array([-4,3,9,7],float)
+v = copy(v0)
+A = copy(A0)
 N = len(v)
 
 def pivot(A,v,m,N):
@@ -46,3 +48,5 @@ for m in range(N-1,-1,-1):
         x[m] -= A[m,i]*x[i]
 
 print(x)
+
+print v0, (matrix(A0)*matrix(x).T).T

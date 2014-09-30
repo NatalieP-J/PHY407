@@ -22,13 +22,9 @@ def Hmn(m,n):
 		return 'invalid index 0'
 	elif n == m:
 		return 0.5*a + (1./eV)*((np.pi*hbar*m)**2/(2*M*L**2))
-	elif np.mod(n,2) != 0 and np.mod(m,2) != 0:
+	elif np.mod(n,2) != 0 and np.mod(m,2) != 0 or np.mod(n,2) == 0 and np.mod(m,2) == 0:
 		return 0
-	elif np.mod(n,2) == 0 and np.mod(m,2) == 0:
-		return 0
-	elif np.mod(n,2) != 0 and np.mod(m,2) == 0:
-		return -(8*a*n*m)/(np.pi*(m**2 - n**2))**2
-	elif np.mod(n,2) == 0 and np.mod(m,2) != 0:
+	elif np.mod(n,2) != 0 and np.mod(m,2) == 0 or np.mod(n,2) == 0 and np.mod(m,2) != 0:
 		return -(8*a*n*m)/(np.pi*(m**2 - n**2))**2
 
 # Choose the cut off for the Hamiltonian (since in reality its size is infinite)
@@ -42,7 +38,7 @@ H = np.zeros((mmax,nmax))
 # n,m in equations are algebraic indices and as such are one higher than Python indices
 for m in range(mmax):
 	for n in range(nmax):
-		H[m,n] = Hmn(m+1,n+1)
+		H[m,n] = Hmn(m+1.,n+1.)
 
 # Confirm H is symmetric and find its eigenvalues
 if (H == H.T).all() == True:
@@ -51,3 +47,4 @@ if (H == H.T).all() == True:
 elif (H!= H.T).any() == True:
 	print '''Matrix is not symmetric.
 		     \n Cannot compute eigenvalues with numpy.linalg.eigvalsh'''
+

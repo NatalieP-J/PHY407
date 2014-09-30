@@ -41,14 +41,14 @@ for i in range(len(mmaxs)):
 	energies.append(E)
 
 plt.title('Residuals in Energy Eigenvalue Calculations')
-plt.xlabel('$E_{10}$')
-plt.ylabel('$E_{10} - E_{100}$')
+plt.xlabel('$Energies\, for\, H_{10\mathrm{x}10}$',fontsize = 15)
+plt.ylabel('$Energies\, for\, H_{10\mathrm{x}10}\, - \,Energies\, for\, H_{100\mathrm{x}100}$',fontsize = 15)
 plt.semilogy(energies[0],energies[0] - energies[1],'o')
 
 
 Estr = ''
 
 for i in range(10):
-	Estr += '\n {0} & {1} \n\\hline'.format(energies[0][i],energies[1][i])
+	Estr += '\n E_{0} & {1} & {2} & {3}\n\\hline'.format(i,energies[0][i],energies[1][i],energies[0][i] - energies[1][i])
 
 print Estr

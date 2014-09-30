@@ -9,6 +9,7 @@ def gaussint(fn,Nsamp,lowlim,uplim,args = False):
 
 	"""
 	x,w = gaussxwab(Nsamp,lowlim,uplim) # gets points and weights
+	print x,w
 	s = 0.0 # start sum at zero
 	for i in range(Nsamp):
 		if args == False:

@@ -53,65 +53,47 @@ def wavefn2(x,args):
 	return abs(psi)**2
 
 
-# Choose the cut off for the Hamiltonian (since in reality its size is infinite)
-mmaxs = [10,100]
-nmaxs = mmaxs
-evecs = []
-for i in range(len(mmaxs)):
-	mmax = mmaxs[i]
-	nmax = nmaxs[i]
+
+mmax = 100
+nmax = mmax
 # Create placeholder matrix for H
-	H = np.zeros((mmax,nmax))
+H = np.zeros((mmax,nmax))
 
 # Fill in values for H according to Hmn
 # n,m in equations are algebraic indices and as such are one higher than Python indices
-	for m in range(mmax):
-		for n in range(nmax):
-			H[m,n] = Hmn(m+1,n+1)
+for m in range(mmax):
+	for n in range(nmax):
+		H[m,n] = Hmn(m+1,n+1)
 
 # Confirm H is symmetric and find its eigenvalues
-	if (H == H.T).all() == True:
-		E = eigh(H)
-		evec = E[1]
-		evecs.append(evec)
-	elif (H!= H.T).any() == True:
-		print '''Matrix is not symmetric.
-		         \n Cannot compute eigenvalues with numpy.linalg.eigvalsh'''
+if (H == H.T).all() == True:
+	E = eigh(H)
+	evec = E[1]
+	evecs = evec.T
+elif (H!= H.T).any() == True:
+	print '''Matrix is not symmetric.
+	         \n Cannot compute eigenvalues with numpy.linalg.eigvalsh'''
 
 x = np.linspace(0,L,1000)
 Nsamp = 50
 
 states = []
 
-for i in range(len(mmaxs)):
-	states.append([])
-	for k in range(3):
-		estate = evecs[i][k]
-		psi = wavefn(x,mmaxs[i],estate)
-		A2 = gaussint(wavefn2,Nsamp,0,L,(mmaxs[i],estate))
-		print A2
-		#psi /= np.sqrt(A2)
-		states[i].append(psi)
+for k in range(3):
+	psi_n = evecs[k]
+	psi = wavefn2(x,(mmax,psi_n))
+	A2 = gaussint(wavefn2,Nsamp,0,L,(mmax,psi_n))
+	print A2
+	psi /= np.sqrt(A2)
+	states.append(psi)
 
-plt.subplot(311)
 plt.xlim(0,5)
-plt.title('Ground State')
-plt.ylabel('$\psi_0(x)$',fontsize = 20)
-for i in range(len(states)):
-	plt.plot(x*1e10,states[i][0],label = 'nmax = mmax = {0}'.format(mmaxs[i]))
-plt.subplot(312)
-plt.xlim(0,5)
-plt.title('First Excited State')
-plt.ylabel('$\psi_1(x)$',fontsize = 20)
-for i in range(len(states)):
-	plt.plot(x*1e10,states[i][1],label = 'nmax = mmax = {0}'.format(mmaxs[i]))
-plt.subplot(313)
-plt.xlim(0,5)
-plt.title('Second Excited State')
-plt.ylabel('$\psi_2(x)$',fontsize = 20)
-plt.xlabel('x [Angstroms]')
-for i in range(len(states)):
-	plt.plot(x*1e10,states[i][2],label = 'nmax = mmax = {0}'.format(mmaxs[i]))
-#plt.tight_layout()
+plt.plot(x*1e10,states[0],label = 'Ground State')
+plt.plot(x*1e10,states[1],label = 'First Excited State')
+plt.plot(x*1e10,states[2],label = 'Second Excited State')
+plt.ylabel('$|\psi(x)|^2$',fontsize = 20)
+plt.xlabel('$x$',fontsize = 20)
+plt.title('Probability Density for Asymmetric Quantum Well')
+plt.legend(loc = 'best')
 plt.show()
 
