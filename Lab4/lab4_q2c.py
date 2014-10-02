@@ -18,13 +18,17 @@ eV = 1.6022*(1e-19) #J
 
 # A function to return the matrix elements of the Hamiltonian
 def Hmn(m,n):
-	if n == 0 or m == 0:
+	# not allowed values for n,m
+	if int(n) == 0 or int(m) == 0: 
 		return 'invalid index 0'
-	elif n == m:
+	# if m and n are equal
+	elif int(n) == int(m):
 		return 0.5*a + (1./eV)*((np.pi*hbar*m)**2/(2*M*L**2))
-	elif np.mod(n,2) != 0 and np.mod(m,2) != 0 or np.mod(n,2) == 0 and np.mod(m,2) == 0:
+	# if m and n are both even or both odd
+	elif np.mod(int(n),2) != 0 and np.mod(int(m),2) != 0 or np.mod(int(n),2) == 0 and np.mod(int(m),2) == 0:
 		return 0
-	elif np.mod(n,2) != 0 and np.mod(m,2) == 0 or np.mod(n,2) == 0 and np.mod(m,2) != 0:
+	# if m or n is even and the other is odd
+	elif np.mod(int(n),2) != 0 and np.mod(int(m),2) == 0 or np.mod(int(n),2) == 0 and np.mod(int(m),2) != 0:
 		return -(8*a*n*m)/(np.pi*(m**2 - n**2))**2
 
 # Choose the cut off for the Hamiltonian (since in reality its size is infinite)
@@ -43,7 +47,7 @@ for m in range(mmax):
 # Confirm H is symmetric and find its eigenvalues
 if (H == H.T).all() == True:
 	E = eigvalsh(H)
-	print E
+	print 'First ten energy eigenvalues:',E
 elif (H!= H.T).any() == True:
 	print '''Matrix is not symmetric.
 		     \n Cannot compute eigenvalues with numpy.linalg.eigvalsh'''

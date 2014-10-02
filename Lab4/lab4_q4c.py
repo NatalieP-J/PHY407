@@ -16,18 +16,27 @@ eps = 1e-6
 # Define omega for over relaxation
 w = 0.5
 
-xi = x0
-# Start iteration counter
-i = 0
-while True:
-	xf = (w+1)*f(xi,c) - w*xi
-	# if tolerance is not achieved iterate again
-	if abs(xf-xi) > eps:
-		xi = xf
-		i+=1
-	# if tolerance achieved, stop loop
-	elif abs(xf-xi) < eps:
-		break
+ws = np.arange(0,1,0.01)
+iters = []
+for w in ws:
+	xi = x0
+	# Start iteration counter
+	i = 0
+	while True:
+		xf = (w+1)*f(xi,c) - w*xi
+		# if tolerance is not achieved iterate again
+		if abs(xf-xi) > eps:
+			xi = xf
+			i+=1
+		# if tolerance achieved, stop loop
+		elif abs(xf-xi) < eps:
+			iters.append(i)
+			break
+
+for i in range(len(iters)):
+	if iters[i] == min(iters):
+		imin = iters[i]
+		wmin  = ws[i]
 
 # Print number of iterations
-print i,' iterations'
+print 'Minimum number of iterations = ',imin,' for omega = ',wmin

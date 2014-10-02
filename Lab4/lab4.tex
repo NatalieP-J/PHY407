@@ -53,7 +53,7 @@ is given by
 
 \subsection{Part c)}
 
-The Hamiltonian has the following energy eigenvalues for the first ten eigenstates: $E_0 = 5.83605893 eV$, $E_1 = 11.1801874 eV$, $E_2 = 18.66084476 eV$, $E_3 = 29.14053797 eV$, $E_4 = 42.64934576 eV$, $E_5 = 59.17700213 eV$, $E_6 = 78.71811979 eV$, $E_7 = 101.27080035 eV$, $E_8 =   126.83280052 eV$, $E_9 = 155.53240248 eV$.
+The Hamiltonian has the following energy eigenvalues for the first ten eigenstates: $E_0 = 5.84 eV$, $E_1 = 11.18eV$, $E_2 = 18.66 eV$, $E_3 = 29.14 eV$, $E_4 = 42.65 eV$, $E_5 = 59.18 eV$, $E_6 = 78.72 eV$, $E_7 = 101.27 eV$, $E_8 =   126.83 eV$, $E_9 = 155.53 eV$. These values also appear in Table \ref{tab:energy} below.
 
 \subsection{Part d)}
 
@@ -85,8 +85,11 @@ The Hamiltonian has the following energy eigenvalues for the first ten eigenstat
 	 $E_9$ & 155.532402483 & 155.402760328 & 0.129642155138\\
 	\hline
   \end{tabular}
+  \caption{}
 \label{tab:energy}
 \end{table}
+
+As can be easily seen in Table \ref{tab:energy}, using 10 or 100 as the side length for H matters very little for the low eigenvalues. However, as you go to higher energies, the eigenvalues computed become more different between the side lengths at an approximately exponential rate. This exponential behaviour is more obvious in Figure \ref{fig:q2d}, where the y-axis has been log scaled.
 
 \begin{figure}[H]
 \centering
@@ -95,21 +98,14 @@ The Hamiltonian has the following energy eigenvalues for the first ten eigenstat
 \label{fig:q2d}
 \end{figure}
 
+In short, the higher you go in energy, the more terms you need in your Hamiltonian for accurate results.
+
 \subsection{Part e)}
-
-BROKEN
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = \linewidth]{lab4q2ei.png}
-\caption{}
-\label{fig:q2ei}
-\end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width = \linewidth]{lab4q2ef.png}
-\caption{}
+\caption{Normalized probability density functions for the ground state and the first two excited states. The probability density is quite high because the scale of the well is so small (on the order of a nanometre). This normalization was done manually; since the eigenvector solutions had arbitrary magnitudes it was necessary to rescale them after computation.}
 \label{fig:q2ei}
 \end{figure}
 
@@ -164,9 +160,11 @@ So under the assumptions that $f(x)$ is well approximated by the first two terms
 
 \subsection{Part c)}
 
-When using over relaxation with $\omega = 0.5$, the result converged to the required accuracy in 4 iterations. Without this over relaxation, getting the required accuracy required 13 iterations. Some alternate guesses were made for $\omega$, but $0.5$ provided the most improvement over the regular relaxation method.
+When using over relaxation with $\omega = 0.72$, the result converged to the required accuracy in 3 iterations. Without this over relaxation, getting the required accuracy required 13 iterations. Some alternate guesses were made for $\omega$, but $0.72$ provided the most improvement over the regular relaxation method.
 
 \subsection{Part d)}
+
+
 
 \section{Question 5}
 
@@ -203,7 +201,7 @@ where $h$ is Planck's constant, $c$ is the speed of light in a vacuum, $k_B$ is 
 
 \subsection{Part b)}
 
-The maximum effieciency of Figure \ref{fig:q6} above occurs at $T = 6933.2087415$ K.
+The maximum efficiency in Figure \ref{fig:q6} above occurs at $T = 6933.2087415$ K.
 
 \end{document}
 

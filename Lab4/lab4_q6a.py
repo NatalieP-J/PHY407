@@ -54,7 +54,7 @@ for i in range(len(T)):
     etas.append(etacal)
 
 # Plot eta vs T
-plt.title('Effiecieny of an incandescent bulb')
+plt.title('Efficiency of an incandescent bulb')
 plt.ylabel('$\eta$',fontsize = 20)
 plt.xlabel('$T$',fontsize = 20)
 plt.plot(T,etas)
