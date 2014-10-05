@@ -164,6 +164,7 @@ When using over relaxation with $\omega = 0.72$, the result converged to the req
 
 \subsection{Part d)}
 
+In the over relaxation method ($x' = (1+\omega)f(x) - \omega x$ for $\omega > 0$), the $\omega$ parameter causes a controlled overshooting in each iteration. Under relaxation takes place when $\omega < 0$, and this approache undershoots each iteration. This approach is more useful than over relaxation in when $f(x)$ is not well behaved near our solution for $x$. In particular, if the value of $f(x)$ blows up near the solution, approaching the solution slowly is better than over shooting and landing on a vertical asymptote. In addition, if there are multiple solutions to $x = f(x)$, an appropriate initial guess and under relaxation ensures the right solution is found.
 
 
 \section{Question 5}
