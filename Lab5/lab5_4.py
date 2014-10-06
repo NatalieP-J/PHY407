@@ -11,7 +11,7 @@ f = 1. #m
 
 alpha = np.pi/sw
 
-N = 5
+N = 400 #N=400 gives right width
 
 def q(u):
 	return np.sin(alpha*u)**2
@@ -33,5 +33,5 @@ cks_full = np.concatenate((cks,flip))
 
 xs,Is = I(cks_full)
 
-plt.plot(xs,Is)
+plt.plot(xs-0.05,Is)
 plt.show()

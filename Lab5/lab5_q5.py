@@ -2,37 +2,45 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 sigma = 25.
-eps = 1.e-3
+eps = 10**-3
 
 blur = np.loadtxt('blur.txt')
 
-def gauss2D(x,y,sigma):
-	result = np.zeros((len(x),len(y)))
-	for i in range(len(x)):
-		for j in range(len(y)):
-			result[i][j] = np.exp(-((x[i]**2 + y[j]**2)/2*sigma**2)) 
-	return result
+def gauss2D(rows,cols,sigma):
+	gauss = np.zeros((rows,cols))
+	for i in range(rows):
+		ip = i
+		#if ip > rows/2:
+		#	ip -= rows
+		for j in range(cols):
+			jp = j
+		#	if jp > cols/2:
+		#		jp -= cols
+			gauss[i][j] = np.exp(-(ip**2 + jp**2)/(2.*sigma**2))
+	return gauss
 
-length = np.linspace(0,1,blur.shape[0]/2.)
-x = np.concatenate((length,length[::-1]))
-y = np.concatenate((length,length[::-1]))
+rows = len(blur)
+cols = len(blur[0])
 
-psf = gauss2D(x,y,sigma)
+psf = gauss2D(rows,cols,sigma)
 
 fblur = np.fft.rfft(blur)
 fpsf = np.fft.rfft(psf)
 
 funblur = np.zeros(fblur.shape,complex)
 
-geq = np.where(abs(fpsf) >= eps)
-les = np.where(abs(fpsf) < eps)
+ilist = []
+for i in range(len(fpsf)):
+	for j in range(len(fpsf[i])):
+		if abs(fpsf[i][j]) >= eps:
+			ilist.append((i,j))
+			funblur[i][j] = fblur[i][j]/fpsf[i][j]
+		elif abs(fpsf[i][j]) < eps:
+			funblur[i][j] = fblur[i][j]
 
-funblur[geq] = fblur[geq]/fpsf[geq]
-funblur[les] = fblur[les]
-
-unblur = np.fft.irfft(funblur)
+unblur = np.fft.irfft(funblur/(rows*cols))
 
 plt.gray()
 plt.figure()
-plt.imshow(unblur)
+plt.imshow(unblur,vmax = 0.001)
 plt.show()

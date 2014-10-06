@@ -4,27 +4,31 @@ import matplotlib.pyplot as plt
 def f(x):
 	fs = []
 	for i in range(len(x)):
-		if np.mod(int(x[i]),2) == 0:
+		if np.mod(np.floor(2*x[i]),2) == 0:
 			fs.append(1)
-		elif np.mod(int(x[i]),2) != 0:
+		elif np.mod(np.floor(2*x[i]),2) != 0:
 			fs.append(-1)
 	return fs
 
 N = 1000
 
-n = np.linspace(0,2,N)
+n = np.linspace(0,1,N)
 
 cks = np.fft.rfft(f(n))
 
 eject = 10
 
-cks_new = np.concatenate((cks[:eject],np.zeros(N-eject)))
+cks[eject:] = 0
 
-f_new = np.fft.irfft(cks_new)
+f_new = np.fft.irfft(cks)
 
-n_new = np.linspace(0,2,len(f_new))
+n_new = np.linspace(0,1,len(f_new))
 
-plt.plot(n,f(n),linewidth = 4)
-plt.plot(n_new,f_new/max(f_new),linewidth = 3)
+plt.plot(n,f(n),linewidth = 4,label = 'Original Function')
+plt.plot(n_new,f_new,linewidth = 3,label = '10 Coeffecient Fourier Series')
+plt.title('Fourier Transform of a Square Wave')
+plt.xlabel('x')
+plt.ylabel('f(x)')
 plt.ylim(-2,2)
+plt.legend(loc = 'best')
 plt.show()
