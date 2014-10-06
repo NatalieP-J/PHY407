@@ -10,12 +10,12 @@ def gauss2D(rows,cols,sigma):
 	gauss = np.zeros((rows,cols))
 	for i in range(rows):
 		ip = i
-		#if ip > rows/2:
-		#	ip -= rows
+		if ip > rows/2:
+			ip -= rows
 		for j in range(cols):
 			jp = j
-		#	if jp > cols/2:
-		#		jp -= cols
+			if jp > cols/2:
+				jp -= cols
 			gauss[i][j] = np.exp(-(ip**2 + jp**2)/(2.*sigma**2))
 	return gauss
 
