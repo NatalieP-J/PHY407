@@ -29,10 +29,11 @@ fpsf = np.fft.rfft(psf)
 
 funblur = np.zeros(fblur.shape,complex)
 
+ilist = []
 for i in range(len(fpsf)):
 	for j in range(len(fpsf[i])):
 		if abs(fpsf[i][j]) >= eps:
-			ilist.append((i,j))
+			ilist.append([i,j])
 			funblur[i][j] = fblur[i][j]/fpsf[i][j]
 		elif abs(fpsf[i][j]) < eps:
 			funblur[i][j] = fblur[i][j]
