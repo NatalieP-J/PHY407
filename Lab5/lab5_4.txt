@@ -1,0 +1,13 @@
+SET slit wdith as 20 micrometres, grating width w as 200 micrometres, extended width W as 10w (2mm), wavelength as 500 nm, screen length 10 cm, focal length f as 1 m.
+SET alpha = pi/slit width
+DEFINE transmission function q(u) = sin^2(alpha u)
+DEFINE an intensity function that returns for a given set of cks the intensity and corresponding x values
+CHOOSE a number of points to evaluate
+CREATE u array from -w/2 to w/2 with chosen number of points
+USE np.fft.rfft to find the cks for the square root of the transmission function
+EXTEND the cks into the full array (np.fft.rfft returns only len(input)/2 + 1 values - the remainder are the mirror image complex conjugates of the given array)
+CALL intensity function
+MIRROR results
+PLOT
+
+
