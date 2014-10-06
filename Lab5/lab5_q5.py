@@ -29,7 +29,6 @@ fpsf = np.fft.rfft(psf)
 
 funblur = np.zeros(fblur.shape,complex)
 
-ilist = []
 for i in range(len(fpsf)):
 	for j in range(len(fpsf[i])):
 		if abs(fpsf[i][j]) >= eps:
