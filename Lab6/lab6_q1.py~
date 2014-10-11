@@ -1,0 +1,48 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from time import clock
+
+G = 6.67e-11
+M = 1.98e30 #kg
+
+x0 = 4e12 #m
+y0 = 0 #m
+vx0 = 0 #m/s
+vy0 = 500 #m/s
+
+h = 1e3 #m
+
+def s(v):
+    vx,vy = v
+    return np.array([vx,vy])
+
+def f(r):
+    x,y = r
+    rval = np.sqrt(x**2 + y**2)
+    return (-G*M/rval**3)*np.array([x,y])
+
+def RK4(h,r,fn):
+    k1 = h*fn(r)
+    k2 = h*fn(r+0.5*k1)
+    k3 = h*fn(r+0.5*k2)
+    k4 = h*fn(r+k3)
+    return r+(1./6.)*(k1 + 2*k2 + 2*k3 + k4)
+
+start = clock()
+
+orbits = 0
+
+while orbits < 2:
+    r1 = np.array([x0,y0])
+    v1 = np.array([vx0,vy0])
+    r1 = RK4(h,r1,f)
+    v1 = RK4(h,v1,s)
+    if abs(r1[0]-x0) <= h and abs(r1[1] - y0) <= h:
+        orbits +=1
+
+end = clock()
+    
+
+print 'Time to run: ', end - start,' s'
+
+plt.plot(x,y)

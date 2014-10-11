@@ -1,0 +1,10 @@
+SET constants: G, Msun
+SET initial conditions: x0 = 4e12 m, y = 0 m, vx0 = 0 m/s, vy0  = 500 m/s
+CHOOSE fixed step size
+DEFINE function that returns (in vector form) dx/dt = vx, dy/dt = vy, dvx/dt = -GMx/r^3, dvy/dt = -GMy/r^3, where r = sqrt(x^2 + y^2)
+BEGIN timing program
+LOOP that iterates once every time (x-x0) and (y-y0) are less than some epsilon (counts number of orbits)
+     IMPLEMENT 4th order Runge-Kutta solving of vector form ODEs
+STOP timing program
+PRINT total computation time
+PLOT y vs x
