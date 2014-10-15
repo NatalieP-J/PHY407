@@ -14,7 +14,7 @@ vy0 = (5.e2/AU)*yr #AU/yr
 
 h0 = 0.0005
 hmax = 50.*h0
-totaltime = 100.
+totaltime = 48.
 delta = 1.e3/AU
 
 def f(r):
@@ -73,11 +73,12 @@ print 'Time to run: ', end - start,' s'
 rvals = np.sqrt(rs[:,0]**2 + rs[:,1]**2)
 
 plt.figure()
-plt.plot(rs[:,0][0::20],rs[:,1][0::20],'.')
+#plt.plot(rs[:,0][0::20],rs[:,1][0::20],'.')
+plt.plot(rs[:,0],rs[:,1],'.')
 plt.plot(0,0,'y*',markersize = 15)
 plt.xlabel('x [AU]')
 plt.ylabel('y [AU]')
-plt.title('Integration positions of fourth order Runge-Kutta method (every 20th step shown)')
+plt.title('Integration positions of fourth order Runge-Kutta method for a single orbit')
 
 '''plt.figure()
 plt.subplot(211)

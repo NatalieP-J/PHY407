@@ -71,9 +71,10 @@ nstep = 1.e2
 t = np.arange(0,dt*nstep,dt)
 
 # Choose initial conditions by uncommenting any rinit below
-rinit = np.array([[4.,4.],[6.,4.]])
-rinit = np.array([[4.9,4.],[5.1,4.]])
-rinit = np.array([[2.,3.],[7.,6.]])
+rinit = np.array([[4.,4.],[6.,4.]]) # part a
+#rinit = np.array([[4.9,4.],[5.1,4.]]) # part b
+#rinit = np.array([[2.,3.],[7.,6.]]) # part c
+#rinit = np.array([[3.5,4.5],[5.,3.5]]) # part d
 
 # Set initial velocities to zero
 vinit = np.array([[0,0],[0,0]])
@@ -88,23 +89,25 @@ part2 = rs[:,1]
 ################################## PLOT ##################################
 
 plt.figure()
-plt.plot(part1[:,0],part1[:,1],'.')
-plt.plot(part2[:,0],part2[:,1],'.')
+plt.scatter(part1[:,0], part1[:,1], c=t[::-1], s=500)
+plt.scatter(part2[:,0], part2[:,1], c=t[::-1], s=500)
 plt.xlabel('x')
 plt.ylabel('y')
 plt.title('Trajectories of particles with starting positions ({0},{1}) and ({2},{3})'.format(rinit[0][0],rinit[0][1],rinit[1][0],rinit[1][1]))
 
 plt.figure()
 plt.subplot(211)
-plt.plot(t,part1[:,0],label = 'Particle 1')
-plt.plot(t,part2[:,0],label = 'Particle 2')
+plt.scatter(t, part1[:,0], c=t[::-1], s=50)
+plt.scatter(t, part2[:,0], c=t[::-1], s=50)
+plt.xlim(min(t),max(t))
 plt.ylabel('X position')
 plt.legend(loc = 'best')
 plt.subplot(212)
-plt.plot(t,part1[:,1])
-plt.plot(t,part2[:,1])
+plt.scatter(t, part1[:,1], c=t[::-1], s=50)
+plt.scatter(t, part2[:,1], c=t[::-1], s=50)
 plt.xlabel('Time')
 plt.ylabel('Y position')
+plt.xlim(min(t),max(t))
 plt.suptitle('Evolution of x and y position with time')
 
 plt.show()
