@@ -7,7 +7,7 @@ from time import clock
 # This code computes the oribit a comet under the influence of solar gravity.
 # It does this with fourth order Runga-Kutta solving of Newton's law of
 # gravitation for x and y velocity, then uses these results to solve for
-# position for fixed timestep size.
+# position for adaptive timestep size.
 
 ################################## CONSTANTS ##################################
 
@@ -49,7 +49,7 @@ def RK4(h,r,fn):
     k2 = h*fn(r+0.5*k1)
     k3 = h*fn(r+0.5*k2)
     k4 = h*fn(r+k3)
-    return r+(1./6.)*(k1 + 2*k2 + 2*k3 + k4)
+    return np.array(r+(1./6.)*(k1 + 2*k2 + 2*k3 + k4))
 
 ################################## MAIN PROGRAM ##################################
 
@@ -60,8 +60,10 @@ vx0 = 0 #AU/yr
 vy0 = (5.e2/AU)*yr #AU/yr
 
 # Choose step size and total integration time
-h = 0.0005 # yr
+h0 = 0.0005 # yr
+hmax = 50.*h0 #yr
 totaltime = 100. # yr
+delta = 1.e3/AU
 
 # Begin timing the process
 start = clock()
@@ -70,33 +72,54 @@ start = clock()
 rs = []
 errs = []
 
-# Begin iteration counter at zero
-i = 0
+# Begin measure of time at zero
+time = 0
+# Create array to hold timestamps
+t = []
+t.append(time)
 
 # Create first iteration vector and add it to rs array
 r0 = np.array([x0,y0,vx0,vy0])
 rs.append(r0)
 
+hs = []
+hs.append(h0)
+h = h0
 # While time integrated up to is less than the total time we wish to integrate
 # continue with the next iteration
-while i*h < totaltime:
+while time < totaltime:
     # Find the new estimate for position and velocity
-    rnew= RK4(h,r0,f)
+    rnew1half= RK4(h,r0,f)
     # To calculate errors, go to time 2h in two ways: by taking another 
     # h-sized step from new estimate, then by taking a 2h-sized step from
     # initial estimate.
-    rnew1 = RK4(h,rnew,f)
+    rnew1 = RK4(h,rnew1half,f)
     rnew2 = RK4(2.*h,r0,f)
     # Compute error on x and y according to 8.54, p 359 of Newman
     xerr = (1./30.)*(rnew1[0]-rnew2[0])
     yerr = (1./30.)*(rnew1[1]-rnew2[1])
     # Append the resulting total error to list
     errs.append((xerr**2 + yerr**2)**0.5)
-    # Add new estimate of position and velocity to list
-    rs.append(rnew)
-    # Set new estimate as initial value for next iteration
-    r0 = rnew
-    i += 1
+    rho = h*delta/(xerr**2 + yerr**2)**0.5 # 8.53, p 358 of Newman
+    # If calculated error was effectively zero (so small that round off error
+    # might eliminate it), manually set the step size
+    if np.isinf(rho) == True:
+        h = hmax
+    # if rho > 1, more accuracy than needed for choice of delta
+    # move to the next iteration, but increase h according to 
+    # 8.52 on p 358 of Newman
+    elif rho > 1:
+        time += h
+        t.append(time)
+        hs.append(h)
+        r0 = rnew1half
+        h *= rho**0.25
+        rs.append(rnew1half)
+    # if rho < 1, less accuracy than needed for choice of delta
+    # stay on this iteration and decrease h according to 8.52
+    # on p 358 of Newman
+    elif rho < 1:
+        h *= rho**0.25
 
 # Stop timing
 end = clock()
@@ -105,7 +128,7 @@ end = clock()
 rs = np.array(rs)    
 
 # Create array holding the points in time for which position is now known
-t = np.arange(0,len(rs)*h,h)
+t = np.array(t)
 
 print 'Time to run: ', end - start,' s'
 print 'Average error: ', np.mean(errs)
@@ -119,14 +142,11 @@ plt.xlabel('x [AU]')
 plt.ylabel('y [AU]')
 plt.title('Orbit of a comet around the sun')
 
-#plt.figure()         # Uncomment these lines to reveal subplots showing
-#plt.subplot(211)     # how the x and y position evolved as plotted 
-#plt.plot(t,rs[:,0])  # against time.
-#plt.ylabel('x [AU]')
-#plt.subplot(212)
-#plt.plot(t,rs[:,1])
-#plt.ylabel('y [AU]')
-#plt.xlabel('t [yr]')
-#plt.suptitle('Motion in x and y over time.')
-
+plt.figure()
+plt.plot(t,hs)
+plt.plot([min(t),max(t)],[h0,h0])
+plt.xlim(min(t),max(t))
+plt.xlabel('Time [yr]')
+plt.ylabel('Step size h [yr]')
+plt.title('Evolution of adaptive step size over orbit')
 plt.show()

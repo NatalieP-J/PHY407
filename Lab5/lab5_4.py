@@ -2,36 +2,70 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cmath as cm
 
+###############################################################################
+
+# This code calculates the intensity of light on a screen by finding the Fourier
+# transform of the square root of the transmission function of light through a
+# diffraction grating and plots the result.
+
+################################## CONSTANTS ##################################
+
+# Slit width
 sw = 20.* 1e-6 #m
+# Diffraction grating width
 w = 200. * 1e-6 #m
+# Padded width
 W = 10.*w #m
+# Wavelength of incident light
 lam = 500. * 1e-9 #m
+# Screen length
 sl = 10. * 1e-2 #m
+# Focal length
 f = 1. #m
 
-alpha = np.pi/sw
+alpha = np.pi/sw #1/m
 
-N = 400 #N=400 gives right width
 
-def q(u):
-	return np.sin(alpha*u)**2
+################################## FUNCTIONS ##################################
 
-def I(ck):
-	Is = (W/N)**2 * abs(ck)**2
-	xs = (lam*f/W)*np.arange(0,len(ck))
-	return xs,Is
+# A function to return the square root of the transmission function
+def sqrtq(u):
+	return np.sqrt(np.sin(alpha*u)**2)
 
-us = np.linspace(-w/2.,w/2.,N)
+################################## MAIN PROGRAM ##################################
 
-cks = np.fft.rfft(np.sqrt(q(us)))
+# Define array of points along the grating
+u = np.linspace(-w/2.,w/2.,100)
 
-flip = cks[:len(cks)-1][::-1]
-for k in range(len(flip)):
-	flip[k] = cks[k].conjugate()
+# Create a new array to hold padded points
+nu = np.zeros(1000)
+N = len(nu)
+half = N/2.
 
-cks_full = np.concatenate((cks,flip))
+# Insert the square root of the transmission function values half way through
+# the new array, leave the rest of the values zero
+for i in range(len(u)):
+	nu[half+i] = sqrtq(u[i])
 
-xs,Is = I(cks_full)
+# Take the FFT of the sqrtq values
+cks = np.fft.fft(nu)
 
-plt.plot(xs-0.05,Is)
+# Transform these FFT coeffecients to intensity
+I = (W/N)**2 * abs(cks)**2
+# Reset main peak to the centre of the array
+Is = np.roll(I,len(I)/2)
+# Define an array that corresponds to the index of each ck value
+k = np.arange(0,len(cks))
+# Calculate the x poisition on the screen
+x = (lam*f/W)*k
+# Reset the x values to centre at x = 0
+xs = x-x[N/2]
+
+################################## PLOT ##################################
+
+plt.plot(xs,Is)
+plt.xlim(-sl/2.,sl/2.)
+plt.xlabel('x [m]')
+plt.ylabel('Intensity')
+plt.title('Intensity of Light from a Diffraction Grating')
 plt.show()
