@@ -1,0 +1,10 @@
+SET constants a = 1, b = 3
+DEFINE function that returns [dx/dt,dy/dt]
+DEFINE function that does B.S. method up to nmax, and it target accuracy is not reached, calls itself on subdivided interval
+SET initial conditions x = y = 0
+SET accuracy delta = 1e-10
+SET interval from t = 0, t = 20
+SET nmax = 8
+SET initial interval size H = 20 and target accuracy delta*H
+CALL B.S. function for given constants
+PLOT x vs t and y vs t and put dots where the boundaries of the time intervals are.
