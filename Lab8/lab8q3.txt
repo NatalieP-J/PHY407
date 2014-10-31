@@ -1,0 +1,16 @@
+SET constants g = -9.81, xmin = 0, xmax = 1, J = 50, A = 0.002, mu = 0.5, sigma = 0.05
+CALCULATE delta x
+CREATE position array from xmin to xmax with step size delta x
+SET start time t = 0, end time t = 4
+SET timestep delta t = 0.01
+DEFINE function to set topography H(x) = 0.01
+DEFINE function to update u
+DEFINE function to update eta
+SET initial conditions u(x,0) = 0, n(x,0) = A*exp((-x-mu)^2/sigma^2)
+SET boundary conditions u(0,t) = u(1,t) = 0
+CREATE arrays of zeros for the following: uold, nold, unew, nnew
+WHILE time <= end time:
+	USE array slicing to update non-end points of unew,nnew
+	USE boundary conditions to update end points of unew
+	USE forward and backward difference method to update end points of nnew
+	UPDATE time by adding delta t
