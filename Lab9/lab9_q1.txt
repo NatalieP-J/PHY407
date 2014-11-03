@@ -1,0 +1,15 @@
+SET constants for the program: m = 9.109e-31 kg, L = 1e-8 m, x0 = L/2, sig = 1e=10 m, kap = 5e10 m^-1, hbar = 1.055e-34 m^2 kg/s
+SET boundary conditions psi = 0 at x = 0 and x = L
+SET initial conditions psi(x,0)
+CHOOSE number of slices N = 1000
+SET x distance spacing a = L/N
+SET timestep h = 1e-18 s
+CREATE  position array from 0 to L with spacing a
+SET matrix elements: a1, a2, b1, b2
+CREATE banded matrix A (which has size len(x) by len(x))
+DEFINE a function to create a vector v from values of psi with vi = b1*psi_i + (b2*(psi_i+1 + psi_i-1)
+SET up plot animation
+FOR times at which we wish to evaluate:
+    CREATE v from previous step's psi
+    SOLVE Ax = v for x using banded from banded.py
+    PLOT x
