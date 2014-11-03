@@ -1,0 +1,9 @@
+SET constants for the program: m = 9.109e-31 kg, L = 1e-8 m, x0 = L/2, sig = 1e=10 m, kap = 5e10 m^-1, hbar = 1.055e-34 m^2 kg/s
+SET boundary conditions psi = 0 at x = 0 and x = L
+SET initial conditions psi(x,0)
+SET number of slices N = 1000
+DEFINE a function to return the real part of psi for given alpha and eta ks using idst
+       (construct coefficient as in the part b) formula, then do an inverse transform)
+SPLIT the initial conditions into two arrays, real and imaginary parts
+PERFORM DST on each array to find alpha ks and eta ks respectively
+SET an arbitrary time t
