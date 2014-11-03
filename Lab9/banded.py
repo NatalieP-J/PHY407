@@ -46,7 +46,6 @@ def banded(Aa,va,up,down):
 
         # Normalization factor
         div = A[up,m]
-        print 'div = ',div
 
         # Update the vector first
         v[m] /= div

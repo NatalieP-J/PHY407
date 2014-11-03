@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from banded import banded
-import cmath as cm
+from dcst import dst,idst
 plt.ion()
 
 
@@ -11,33 +10,10 @@ x0 = L/2. #m
 sig = 1e-10 #m
 kap = 5e10 #m^-1
 hbar = 1.055e-34 #m^2 kg/s
-
 N = 1000
 a = float(L/N) #m
-h = 1e-18 #s
+h = 1e-16 #s
 x = np.arange(0,L,a)
-ele = h*(1j*hbar/(4*m*a**2))
-a1 = 1 + 2*ele
-a2 = -ele
-b1 = 1 - 2*ele
-b2 = ele
-
-def vvec(psi):
-    v = np.zeros(len(psi),complex)
-    v[0] = b1*psi[0] + b2*psi[1]
-    v[-1] = b1*psi[-1] + b2*psi[-2]
-    for i in range(1,len(psi)-1):
-        v[i] = b1*psi[i] + b2*(psi[i+1] + psi[i-1])
-    return v
-
-
-A = np.zeros((3,len(x)),complex)
-
-A[0][2:] += a2
-A[2][:2] += a2
-A[1][0] += 1.0
-A[1][-1] += 1.0
-A[1][1:-1] += a1
 
 psi = np.zeros(len(x),complex)
 psi0 = 0.
@@ -47,6 +23,20 @@ psi[0] = psi0
 psi[-1] = psi1
 psi[1:len(x)-2] = psi_init
 
+psiR = psi.real
+psiI = psi.imag
+
+alpha = dst(psiR)
+eta = dst(psiI)
+
+plt.plot(np.abs(alpha + 1j*eta))
+plt.ylabel('$|b_k|$',fontsize = 20)
+plt.xlabel('$k$',fontsize = 20)
+plt.title('Fourier Coefficients')
+
+k = np.arange(0,len(alpha))
+
+arg = (hbar/(2*m))*(np.pi*k/L)**2
 
 fig = plt.figure()
 ax = plt.axes()
@@ -55,11 +45,15 @@ ax.set_xlabel('$x [m]$',fontsize = 20)
 ax.set_ylabel('$\psi$',fontsize = 20)
 
 t = 0
-while t < 50*h:
+while t < h*100:
     line[0].set_ydata(psi.real)
     ax.set_title('Time = {0} s'.format(t))
     plt.draw()
-    v = vvec(psi)
-    print v[0::100]
-    psi = banded(A,v,1,1)
+    alphan = alpha * np.cos(arg*t)
+    etan = eta*np.sin(arg*t)
+    psi = idst(alphan) - idst(etan)
+    psi[0] = psi0
+    psi[-1] = psi1
     t+=h
+
+
