@@ -34,10 +34,23 @@ def vvec(psi):
 A = np.zeros((3,len(x)),complex)
 
 A[0][2:] += a2
-A[2][:2] += a2
+A[2][:-2] += a2
 A[1][0] += 1.0
 A[1][-1] += 1.0
 A[1][1:-1] += a1
+
+'''
+A = np.zeros((len(x),len(x)),complex)
+for i in range(len(x)):
+    for j in range(i-1,i+2):
+        if i != len(x)-1 and i!=0:
+            if j==i:
+                A[i][j] = a1
+            else:
+                A[i][j] = a2
+        else:
+            A[i][i] = 1.0
+'''
 
 psi = np.zeros(len(x),complex)
 psi0 = 0.
@@ -55,11 +68,12 @@ ax.set_xlabel('$x [m]$',fontsize = 20)
 ax.set_ylabel('$\psi$',fontsize = 20)
 
 t = 0
-while t < 50*h:
+while t < 100*h:
     line[0].set_ydata(psi.real)
     ax.set_title('Time = {0} s'.format(t))
     plt.draw()
     v = vvec(psi)
-    print v[0::100]
-    psi = banded(A,v,1,1)
+    #print v[0::100]
+    psi = banded(A,v,1,1) #np.linalg.solve(A,v) #
     t+=h
+

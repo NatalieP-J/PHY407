@@ -12,7 +12,7 @@ kap = 5e10 #m^-1
 hbar = 1.055e-34 #m^2 kg/s
 N = 1000
 a = float(L/N) #m
-h = 1e-16 #s
+h = 1e-18 #s
 x = np.arange(0,L,a)
 
 psi = np.zeros(len(x),complex)
@@ -36,7 +36,7 @@ plt.title('Fourier Coefficients')
 
 k = np.arange(0,len(alpha))
 
-arg = (hbar/(2*m))*(np.pi*k/L)**2
+arg = -(hbar/(2*m))*(np.pi*k/L)**2
 
 fig = plt.figure()
 ax = plt.axes()
@@ -45,12 +45,12 @@ ax.set_xlabel('$x [m]$',fontsize = 20)
 ax.set_ylabel('$\psi$',fontsize = 20)
 
 t = 0
-while t < h*100:
+while t < h*1000:
     line[0].set_ydata(psi.real)
     ax.set_title('Time = {0} s'.format(t))
     plt.draw()
     alphan = alpha * np.cos(arg*t)
-    etan = eta*np.sin(arg*t)
+    etan = eta * np.sin(arg*t)
     psi = idst(alphan) - idst(etan)
     psi[0] = psi0
     psi[-1] = psi1
