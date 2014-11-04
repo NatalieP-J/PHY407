@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from banded import banded
 import cmath as cm
+plt.ion() # This line needed to run animations
 
 
 ###############################################################################
@@ -23,6 +24,8 @@ x0 = L/2. #m
 sig = 1e-10 #m
 # Frequency of initial wave packet
 kap = 5e10 #m^-1
+# Float comparison
+eps = 5e-19
 
 ################################## FUNCTIONS ##################################
 
@@ -41,7 +44,7 @@ def vvec(psi):
 # Number of position intervals
 Nx = 1000
 # Number of time intervals
-Nt = 500
+Nt = 2000
 # Position step size
 a = float(L/Nx) #m
 # Time step size
@@ -90,12 +93,43 @@ psi[0] = psi0
 psi[-1] = psi1
 psi[1:len(x)-2] = psi_init
 
+# BEGIN ANIMATED PLOT
+'''
+fig = plt.figure()
+ax = plt.axes()
+line = ax.plot(x,psi.real)
+ax.set_xlabel('$x [m]$',fontsize = 20)
+ax.set_ylabel('$\psi$',fontsize = 20)
+'''
+# BEGIN COMPUTING PSI AND ANIMATING THE RESULT 
 
-# BEGIN COMPUTING PSI
+psi_saves = [] # Array to hold snapshots
 
 t = 0
 while t < Nt*h:
+    line[0].set_ydata(psi.real)
+    ax.set_title('Time = {0} s'.format(t))
+    plt.draw()
     v = vvec(psi) # Create v vector
     psi = banded(A,v,1,1) # Use Gaussian elimination on banded matrices to update psi
+    if t < eps or abs(t-1e-16) < eps or abs(t-1e-15) < eps:
+        psi_saves.append(psi)
     t+=h
+
+plt.figure()
+plt.subplot(311)
+plt.plot(x,psi_saves[0].real)
+plt.ylabel('$\psi$',fontsize = 20)
+plt.title('$0$ s')
+plt.subplot(312)
+plt.plot(x,psi_saves[1].real)
+plt.ylabel('$\psi$',fontsize = 20)
+plt.title('$10 ^{-16}$ s')
+plt.subplot(313)
+plt.plot(x,psi_saves[2].real)
+plt.ylabel('$\psi$',fontsize = 20)
+plt.xlabel('$x [m]$',fontsize = 20)
+plt.title('$10 ^{-15}$ s')
+plt.suptitle('Wave packet evolution over time',fontsize = 20)
+plt.tight_layout()
 
