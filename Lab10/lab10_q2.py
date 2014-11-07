@@ -1,6 +1,6 @@
 from random import random, seed
 import matplotlib.pyplot as plt
-from numpy import copy,where
+from numpy import copy,where,array,append,zeros
 from time import sleep
 plt.ion()
 
@@ -23,21 +23,14 @@ def donewalk(i,j,npart):
 	anchori.append(int(i))
 	anchorj.append(int(j))
 	ax1.plot(anchori,anchorj,'go',markersize = 10)
-	npart += 1
-	return False,npart
+	return False,npart+1
 
 def failwalk(i,j,npart):
 	return False,npart
 
-def indlocate(ival,ilist):
-	return [i for i, j in enumerate(ilist) if j == ival]
+L = 21#101
 
-def intersect(list1,list2):
-	return [i for i in list1 if i in list2]
-
-L = 11#101
-
-N = 50
+N = 7
 
 anchori = []
 anchorj = []
@@ -60,34 +53,31 @@ while npart < N:
 	while walk == True:
 		i = move(i)
 		j = move(j)
+		#print 'i,j = ',i,j
 		line[0].set_xdata(i)
 		line[0].set_ydata(j)
 		plt.draw()
-		if i == 0 or j == 0 or i == L or j == L:
+		absi = abs(i-array(anchori))
+		absj = abs(j-array(anchorj))
+		#print 'absi = ',absi
+		#print 'absj = ',absj
+		mi = where(absi == 0)[0]
+		mj = where(absj == 0)[0]
+		ni = where(absi == 1)[0]
+		nj = where(absj == 1)[0]
+		mint = [i for i in mi if i in mj]
+		nint1 = [i for i in ni if i in mj]
+		nint2 = [i for i in nj if i in mi]
+		if mint != []:
+			print 'overlapped'
+			print 'mint = ',mint
+			walk,npart = failwalk(i,j,npart)
+		elif nint1 != [] or nint2 != []:
+			print 'added sticky anchor'
+			print 'nint1 = ',nint1, 'nint2 = ',nint2
 			walk,npart = donewalk(i,j,npart)
-		elif i in anchori and j not in anchorj:
-			print 'possible adjacent'
-			iloc = indlocate(i,anchori)
-			jlocup = indlocate(j+1,anchorj)
-			jlocdown = indlocate(j-1,anchorj)
-			print iloc,jlocup,jlocdown
-			if intersect(iloc,jlocup) != [] or intersect(iloc,jlocdown) != []:#iloc == jlocup or iloc == jlocdown:
-				print 'i,j = ', i,j
-				walk,npart = donewalk(i,j,npart)
-		elif j in anchorj and i not in anchori:
-			print 'possible adjacent'
-			jloc = indlocate(j,anchorj)
-			ilocup = indlocate(i+1,anchori)
-			ilocdown = indlocate(i-1,anchori)
-			print jloc,ilocup,ilocdown
-			if intersect(jloc,ilocup) != [] or intersect(jloc,ilocdown) != []:#jloc == ilocup or jloc == ilocdown:
-				print 'i,j = ', i,j
-				walk,npart = donewalk(i,j,npart)
-		elif i in anchori and j in anchorj:
-			iloc = indlocate(i,anchori)
-			jloc = indlocate(j,anchorj)
-			if iloc == jloc:
-				walk,npart = failwalk(i,j,npart)
-
+		elif i == 0 or j == 0 or i == L or j == L:
+			print 'added border anchor'
+			walk,npart = donewalk(i,j,npart)
 ax1.plot(anchori,anchorj,'go',markersize = 10)
 
