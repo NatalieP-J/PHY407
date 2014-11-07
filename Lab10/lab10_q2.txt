@@ -1,0 +1,6 @@
+CHOOSE a total number of particles N
+CREATE dictionary to house anchor positions
+WHILE npart < N:
+	PERFORM random walk step
+	IF i,j are either of the box limits or adjacent to an anchor
+		INCREASE npart

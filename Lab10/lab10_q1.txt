@@ -1,0 +1,19 @@
+DEFINE a function move(i) to do the following
+	CHOOSE a random number diri from 0 to 2
+	IF dir < 1:
+		ADD 1 to i
+	IF 1 < dir < 2:
+		SUBTRACT 1 from i
+	IF 0 < i < L:
+		return i
+	ELIF i < 0 or i > L:
+		move(i)
+
+
+SET L = 101
+CHOOSE initial particle position i,j randomly
+WHILE nsteps < 1e6:
+	i = move(i)
+	j = move(j)
+
+	
