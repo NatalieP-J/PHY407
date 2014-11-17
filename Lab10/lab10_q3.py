@@ -1,6 +1,6 @@
 from random import randrange, seed
 import matplotlib.pyplot as plt
-from numpy import copy,array
+from numpy import copy,array,where
 from time import sleep
 plt.ion()
 
@@ -19,8 +19,6 @@ animate = False
 seed(42)
 # Size of grid 
 L = 101
-# Total number of particles
-Npart = 100
 
 ################################## FUNCTIONS ##################################
 
@@ -54,6 +52,10 @@ def donewalk(i,j,anchor):
 
 ################################## MAIN PROGRAM ##################################
 
+# Choose start positions for each particle
+istart = L/2 + 1
+jstart = L/2 + 1
+
 # If we wish to animate the walk, initialize updating figure
 
 if animate == True:
@@ -67,28 +69,20 @@ if animate == True:
 # Create empty list to hold anchored particle coordinates
 anchor = []
 
-# Choose start positions for each particle
-istart = L/2 + 1
-jstart = L/2 + 1
-
 # Choose starting particle index
 npart = 0
 
-while npart < Npart:
-	print 'Particle {0} of {1}'.format(npart+1,Npart) 	
+while [istart,jstart] not in anchor:
+	print 'Particle {0}'.format(npart+1) 	
 	# For each particle, set its starting position
 	i,j = istart,jstart
+	if [i,j+1] in anchor or [i,j-1] in anchor or [i+1,j] in anchor or [i-1,j] in anchor:
+		walk,anchor = donewalk(i,j,anchor)
 	# Tell the particle to begin walking
 	walk = True
 	while walk == True:
 		# Update position
 		i,j = move(i,j,L)
-		# If animating, update position in figure
-		if animate == True:
-			line[0].set_xdata(i)
-			line[0].set_ydata(j)
-			ax.set_title('Particle {0}'.format(npart+1))
-			plt.draw()
 		# If the particle hits a boundary, stop walking and anchor it
 		if i == L or j == L or i == 0 or j == 0:
 			walk,anchor = donewalk(i,j,anchor)
