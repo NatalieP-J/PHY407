@@ -1,0 +1,26 @@
+from numpy import arange
+from random import randrange
+
+def adjacentpt(x,y):
+    z = randrange(0,4):
+    if z == 0:
+        return x,y+1
+    if z == 1:
+        return x,y-1
+    if z == 2:
+        return x+1,y
+    if z == 3:
+        return x-1,y
+
+L = 50
+lattice = arange((L,L))
+dimer = []
+empty = []
+iterations = 40
+
+for i in range(iterations):
+    x1 = randrange(0,L)
+    y1 = randrange(0,L)
+    if [x1,y1] in empty:
+        x1,y2 = adjacentpt(x1,y1)
+    

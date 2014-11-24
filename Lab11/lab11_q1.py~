@@ -1,0 +1,6 @@
+
+def energy(ss):
+    lrarray = ss.flatten()
+    lr = np.sum(lr[0:-1]*lr[1:])
+    udarray1 = ss.T.flatten()
+    udarray2

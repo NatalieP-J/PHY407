@@ -1,0 +1,14 @@
+SET L = 50
+CREATE lattice
+CREATE empty list for dimer locs 
+CREATE empty list for empty locs
+WHILE t < time
+      CHOOSE two random integers from 0 to 50 for first coordinate
+      SELECT a point adjacent to the first coordinate
+      CHECK if coordinate pair is in the dimer location list
+      IF YES
+      	 REMOVE coordinate pair is in the dimer list
+	 ADD each part of coordinate pair separately to empty locs
+      IF NO
+      	 ADD coordinate pair to dimer list
+	 REMOVE each part of the coordinate pair from empty locs
