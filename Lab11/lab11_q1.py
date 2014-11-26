@@ -1,5 +1,6 @@
 import numpy as np
 from random import random,randrange
+import matplotlib.pyplot as plt
 
 def energy(ss):
     lrarray = ss.flatten()
@@ -28,7 +29,7 @@ T = 1
 kb = 1
 beta = 1./(T*kb)
 ndip = 20
-niter = int(1e6)
+niter = int(1e5)
 
 ss = np.random.randint(0,2,(ndip,ndip))
 ss[np.where(ss==0)] = -1
@@ -54,3 +55,12 @@ while i < niter:
         energies.append(enew)
         magnets.append(magnet(newss))
         i+=1
+
+plt.figure()
+plt.subplot(211)
+plt.plot(energies)
+plt.ylabel('Energy')
+plt.subplot(212)
+plt.plot(magnets)
+plt.xlabel('Step Number')
+plt.ylabel('Magnetization')
