@@ -1,0 +1,3 @@
+CHOOSE J=1, Ndip = 20, T=1
+SET up initial array
+DEFINE function to calculate energy
