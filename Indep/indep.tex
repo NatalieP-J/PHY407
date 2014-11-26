@@ -95,7 +95,13 @@ J_n(x) &=& \sum_{k=0}^{\infty}\frac{(-1)^k}{k!(k+n)!}\left(\frac{x}{2}\right)^{2
 
 \subsection{Memoization}
 
+Memoization is a very fancy term for a relatively simple idea: taking advantage of a computer's memory rather than its processor. Imagine you have many iterations of a complicated calculation, and each new iteration depends on the previous one. Obviously you would want to save the results of your calcuation so you can use previous results in your current iterations without recalculating them. In this course, we have used lists and arrays to track these sorts of numbers. The memoization tool of choice is usually dictionaries, as this allows you to link an independent variable to the results you want to store.
+
+But this isn't so different from what we've already done, storing the results of various iterations in lists. We can take the advantage a step further by saving our results, then calling them in when we need to make further calcuations.
+
 \subsection{Interpolation}
+
+Another method to minimize time consuming calculation is interpolation. Suppose you want to know the value of a smooth function at many points, but computing the value of the function takes far too long to specifically evaluate it at every location. The obvious solution is to evaluate the function at only a few points, then use these values to infer what the function looks like everywhere else. There are a few caveats: as I've said, you need your function to be smooth and continuous. If your function isn't well behaved, you'll need a near infinite number of points to calculate its shape. And even when your function is smooth and continuous, you still to be sure that you are sampling the right number of points in order to truly describe the function.
 
 \section{Lab Instructions}
 \\
