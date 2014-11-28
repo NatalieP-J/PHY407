@@ -10,12 +10,13 @@ plt.ion()
 # the spin of one of the dipoles and calculating the energy of each 
 # configuration. Lower energy configuration are always accepted, while higher
 # energy configurations are accepted with probability governed by the Boltzmann
-# distribution.
+# distribution. The dipoles are animated as they change
 
 ################################## CONSTANTS ##################################
 
+animate = False # Animation toggle
 J = 1 # Constant scalar multiple for energy with units of energy
-T = 1 # Temperature: arbitrary units
+T = 3. # Temperature: arbitrary units
 kb = 1 # Boltzmann constant, arbitrary units
 beta = 1./(T*kb) # A consolidating constant used in the energy calculation
 ndip = 20 # Number of dipoles
@@ -51,6 +52,25 @@ def metro_accept(E1,E2):
 ss = np.random.randint(0,2,(ndip,ndip))
 ss[np.where(ss==0)] = -1
 
+if animate == True:
+    # Set up animation
+    plt.figure()
+    # Choose axes
+    ax = plt.axes(xlim = (-0.5,ndip-0.5),ylim = (-0.5,ndip-0.5))
+    # Create grid
+    ax.vlines(np.arange(-1,ndip+1)+0.5,-0.5,ndip+0.5)
+    ax.hlines(np.arange(-1,ndip+1)+0.5,-0.5,ndip+0.5)
+    # Plot up dipoles
+    ax.plot(np.where(ss==1)[0],np.where(ss==1)[1],'r^',markersize = 10)
+    # Plot down dipoles
+    ax.plot(np.where(ss==-1)[0],np.where(ss==-1)[1],'bv',markersize = 10)
+    plt.title('Temperature = {0}'.format(T))
+    # Turn off axis labels
+    fig = plt.gca()
+    fig.axes.get_xaxis().set_ticks([])
+    fig.axes.get_yaxis().set_ticks([])
+    plt.draw()
+
 # Create empty arrays to hold energy and magnetization at each step
 energies = []
 magnets = []
@@ -60,8 +80,9 @@ energies.append(energy(ss))
 magnets.append(magnet(ss))
 
 for i in range(niter):
-    if np.mod(i,1000) == 0:
-        print 'Done',i,'of',niter
+    # Print status update every 10000 steps
+    if np.mod(i,10000) == 0:
+        print 'i = ',i, 'of', niter
     newss = np.copy(ss)
     # Choose a random position in the array
     x,y = randrange(0,ndip),randrange(0,ndip)
@@ -76,16 +97,38 @@ for i in range(niter):
         ss = newss
         energies.append(enew)
         magnets.append(magnet(newss))
+        if animate == True:
+            ax.lines.pop(-1)
+            ax.lines.pop(-1)
+            ax.plot(np.where(ss==1)[0],np.where(ss==1)[1],'r^',markersize = 10)
+            ax.plot(np.where(ss==-1)[0],np.where(ss==-1)[1],'bv',markersize = 10)
+            plt.draw()
 
 ################################## PLOT ################################## 
+
+plt.figure()
+# Choose axes
+ax = plt.axes(xlim = (-0.5,ndip-0.5),ylim = (-0.5,ndip-0.5))
+# Create grid
+ax.vlines(np.arange(-1,ndip+1)+0.5,-0.5,ndip+0.5)
+ax.hlines(np.arange(-1,ndip+1)+0.5,-0.5,ndip+0.5)
+# Plot up dipoles
+ax.plot(np.where(ss==1)[0],np.where(ss==1)[1],'r^',markersize = 10)
+# Plot down dipoles
+ax.plot(np.where(ss==-1)[0],np.where(ss==-1)[1],'bv',markersize = 10)
+plt.title('Temperature = {0}'.format(T))
+# Turn off axis labels
+fig = plt.gca()
+fig.axes.get_xaxis().set_ticks([])
+fig.axes.get_yaxis().set_ticks([])
+plt.draw()
+
 plt.figure()
 plt.subplot(211)
 plt.plot(energies)
-plt.title('Energy and magnetization of a Ising magnetic dipole model after 1 million Monte Carlo steps')
 plt.ylabel('Energy')
-plt.xlim(0,len(energies))
+plt.title('Energy and magnetization of a Ising magnetic dipole model after 1 million Monte Carlo steps')
 plt.subplot(212)
 plt.plot(magnets)
 plt.xlabel('Step Number')
 plt.ylabel('Magnetization')
-plt.xlim(0,len(energies))
