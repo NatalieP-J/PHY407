@@ -95,7 +95,7 @@ J_n(x) &=& \sum_{k=0}^{\infty}\frac{(-1)^k}{k!(k+n)!}\left(\frac{x}{2}\right)^{2
 
 \subsection{Memoization}
 
-Memoization is a very fancy term for a relatively simple idea: taking advantage of a computer's memory rather than its processor. Imagine you have many iterations of a complicated calculation, and each new iteration depends on the previous one. Obviously you would want to save the results of your calcuation so you can use previous results in your current iterations without recalculating them. In this course, we have used lists and arrays to track these sorts of numbers. The memoization tool of choice is usually dictionaries, as this allows you to link an independent variable to the results you want to store.
+Memoization is a very fancy term for a relatively simple idea: taking advantage of a computer's memory rather than its processor. Imagine you have many iterations of a complicated calculation, and each new iteration depends on the previous one. Obviously you would want to save the results of your calcuation so you can use previous results in your current iterations without recalculating them. In this course, we have used lists and arrays to track these sorts of numbers. The memoization tool of choice is usually dictionaries, as this allows you to link an independent variable to the results you want to store. This means you don't need to know anything about the list - just the appropriate independent variable to call your result.
 
 But this isn't so different from what we've already done, storing the results of various iterations in lists. We can take the advantage a step further by saving our results, then calling them in when we need to make further calcuations.
 
@@ -104,6 +104,14 @@ But this isn't so different from what we've already done, storing the results of
 Another method to minimize time consuming calculation is interpolation. Suppose you want to know the value of a smooth function at many points, but computing the value of the function takes far too long to specifically evaluate it at every location. The obvious solution is to evaluate the function at only a few points, then use these values to infer what the function looks like everywhere else. There are a few caveats: as I've said, you need your function to be smooth and continuous. If your function isn't well behaved, you'll need a near infinite number of points to calculate its shape. And even when your function is smooth and continuous, you still to be sure that you are sampling the right number of points in order to truly describe the function.
 
 \section{Lab Instructions}
+
+For grading purposes, only hand in the following parts. Ensure codes are well commented and readable by an outsider.
+
+\begin{itemize}
+\item Q1: Hand in the functions written for all three parts in a single file. Make a table comparing the speed of each part's method. State for each method what happens when 1000! is evaluated. Also provide an answer to the last question in part c).
+\item Q2: Hand in your code for part b) and a plot comparing the results of Equations \ref{eqn:bessum} and \ref{besint}. State which equation you plan to use for the remainder of the code and why. Also hand in your plot from part d)
+\item Q3: Hnad in your code
+\end{itemize}
 \\
 \textbf{Question 1:} One of the biggest challenges in computing Bessel functions using Equation \ref{eqn:bessum} lies in finding factorials effeciently. Python's built in math module provides a function to do this (math.factorial).\\
 \textbf{a)} Write a recursive factorial function and compute factorials for 10,100,500. What happens when you try to find the factorial of 1000? How does the speed of the computation compare with using math.factorial?\\
@@ -111,12 +119,16 @@ Another method to minimize time consuming calculation is interpolation. Suppose 
 \textbf{c)} Another technique that can be used to improve factorial computation is memoization, described in the Computational Background. Using memoization write a new recursive function that computes the a factorial. Use this new function, find the factorial (in order) of 10, 100, 500. Then try to use it to find 1000!. What happens if you restart your Python interpreter and use the function to find 1000!? With this in mind, explain one advantage and one disadvantage of this method of computing factorials. \\
 
 \textbf{Question 2:} \\
-\textbf{a)} Simplify Equations \ref{eqn:bessum} and \ref{eqn:besint} for the case where $n = 0$.\\
-\textbf{b)} Find $J_n(x)$ from $x$ = 0 to $x$ = 20 with step size 0.01 using Equation \ref{eqn:bessum} with 10 terms. Plot this on the same axes as scipy.special.jn (with labels). Do the same for 50 and 100 terms. Do your results match those of the scipy module?\\
+\textbf{a)} Simplify Equations \ref{eqn:bessum} and \ref{eqn:besint} for the cases where $n = 0$ and $n = 1$.\\
+\textbf{b)} Find $J_0(x)$ from $x$ = 0 to $x$ = 20 with step size 0.01 using Equation \ref{eqn:bessum} with 25 terms (use the built in factorial function). Do the same for 50 and 75 terms. How does increasing the number of terms change your results? What happens if you change the upper bound of your x range to $x$ = 40? Now use one of the integration methods we developed in Labs 2 and 3 to evaluate Equation \ref{eqn:besint}. Do your results match those of the scipy module?\\
+\textbf{c)} Based on the results of part b), choose either Equation \ref{eqn:bessum} or Equation \ref{eqn:besint} to use for the remainder of the lab.
+\textbf{d)} Use your choice from c) to evaluate $J_1(x)$ on the same $x$ range as the first part of part b). \\
 
 \textbf{Question 3:} A necessary component of Equation \ref{eqn:final} is knowing for which $\lambda_m$ $J_0(\lambda_m R) = 0$. Solving for eigenvalues $\lambda_m$ is equivalent to finding the zeros of the Bessel function and dividing them by $R$.\\
-\textbf{a)} Use any of the zero-finding methods of Lab 4 to find the first five zeros of $J_0$ (keep in mind $J_0$ has multiple zeros). Use the $J_0$ you found in question 2. Translate these to eigenvalues $\lambda_m$. Compare your results with the output of scipy.special.jn\_zeros and adjust your accuracy until you get a match to ***********X************ significant figures. What accuracy was needed to reproduce scipy's result?\\
+\textbf{a)} Use any of the zero-finding methods of Lab 4 to find the first five zeros of $J_0$. Use the $J_0$ you chose in question 2 part c). Translate these zeros to eigenvalues $\lambda_m$. Compare your results with the output of scipy.special.jn\_zeros and adjust your accuracy until you get a match to 7 significant figures. What accuracy was needed to reproduce scipy's result?\\
 \textbf{b)} Although Bessel functions are not periodic, the location of their nth zeros can be approximated for sufficiently high n, using $\pi\left(n-1/4\right)$. Use this to approximate the location of the 5th, 50th and 500th zeros. Does your location for the 5th zero match what you found in part a)? Compare your result with scipy.special.jn\_zeros. Is this a good approximation?  \\
+
+\textbf{Question 4:} We now have all the tools we need to construct Equation \ref{eqn:final}. Create a function 
 
 
 \appendix
