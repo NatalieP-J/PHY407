@@ -108,28 +108,56 @@ Another method to minimize time consuming calculation is interpolation. Suppose 
 For grading purposes, only hand in the following parts. Ensure codes are well commented and readable by an outsider.
 
 \begin{itemize}
-\item Q1: Hand in the functions written for all three parts in a single file. Make a table comparing the speed of each part's method. State for each method what happens when 1000! is evaluated. Also provide an answer to the last question in part c).
-\item Q2: Hand in your code for part b) and a plot comparing the results of Equations \ref{eqn:bessum} and \ref{besint}. State which equation you plan to use for the remainder of the code and why. Also hand in your plot from part d)
-\item Q3: Hnad in your code
+\item Q1: 
+  \begin{itemize}
+    \item Hand in the functions written for all three parts in a single file. 
+    \item Make a table comparing the speed of each part's method. 
+    \item State for each method what happens when 1000! is evaluated. 
+    \item Provide short answers for parts b),c) and d).
+  \end{itemize}
+
+\item Q2: 
+  \begin{itemize}
+    \item Hand in your code for parts b) and d).
+    \item Turn in plots for b) and c) with all curves for all three numbers of sum terms on the same plot. 
+    \item Hand in a plot for part d) comparing your curve with the results of the scipy module. 
+    \item Hand in a plot of part f). 
+    \item Provide short answers for parts b),c) and e).
+  \end{itemize}
+
+\item Q3: 
+  \begin{itemize}
+    \item Hand in your code for part a) and the accuracy needed.
+    \item Provide a short answer for part b)
+  \end{itemize}
+
+\item Q4:
+  \begin{itemize}
+    \item Hand in your code
+    \item Hand in a snapshot of your animations at t = 0, 0.005,10 and 100.
+    \item Provide a short answer to the question asked.
+  \end{itemize}
 \end{itemize}
 \\
 \textbf{Question 1:} One of the biggest challenges in computing Bessel functions using Equation \ref{eqn:bessum} lies in finding factorials effeciently. Python's built in math module provides a function to do this (math.factorial).\\
 \textbf{a)} Write a recursive factorial function and compute factorials for 10,100,500. What happens when you try to find the factorial of 1000? How does the speed of the computation compare with using math.factorial?\\
 \textbf{b)} A common way to approximate large factorials is to use Stirling's approximation, $\ln(n!) \approx n\ln(n) - n$. Can we compute factorial of 1000 with this? How does $\ln(1000!)$ compare with math.log(math.factorial(1000))? What about $\ln(1\e{5}!)$ compared with math.log(math.factorial($1\e{5}$))? Which computation takes longer?\\
-\textbf{c)} Another technique that can be used to improve factorial computation is memoization, described in the Computational Background. Using memoization write a new recursive function that computes the a factorial. Use this new function, find the factorial (in order) of 10, 100, 500. Then try to use it to find 1000!. What happens if you restart your Python interpreter and use the function to find 1000!? With this in mind, explain one advantage and one disadvantage of this method of computing factorials. \\
+\textbf{c)} Another technique that can be used to improve factorial computation is memoization, described in the Computational Background. Using memoization write a new recursive function that computes the a factorial. Use this new function, find the factorial (in order) of 1000, 10, 100, 500, 1000. What happened when you tried to evaluate 1000! each time?  With this in mind, explain one advantage and one disadvantage of this method of computing factorials. \\
+\textbf{d)} Choose one of the three fuctions you developed to use in the remainder of the program and explain your choice.\\
 
 \textbf{Question 2:} \\
 \textbf{a)} Simplify Equations \ref{eqn:bessum} and \ref{eqn:besint} for the cases where $n = 0$ and $n = 1$.\\
-\textbf{b)} Find $J_0(x)$ from $x$ = 0 to $x$ = 20 with step size 0.01 using Equation \ref{eqn:bessum} with 25 terms (use the built in factorial function). Do the same for 50 and 75 terms. How does increasing the number of terms change your results? What happens if you change the upper bound of your x range to $x$ = 40? Now use one of the integration methods we developed in Labs 2 and 3 to evaluate Equation \ref{eqn:besint}. Do your results match those of the scipy module?\\
-\textbf{c)} Based on the results of part b), choose either Equation \ref{eqn:bessum} or Equation \ref{eqn:besint} to use for the remainder of the lab.
-\textbf{d)} Use your choice from c) to evaluate $J_1(x)$ on the same $x$ range as the first part of part b). \\
+\textbf{b)} Find $J_0(x)$ from $x$ = 0 to $x$ = 20 with step size 0.01 using Equation \ref{eqn:bessum} with 25 terms. Do the same for 50 and 75 terms. How does increasing the number of terms change your results? \\
+\textbf{c)} What happens if you perform the same three evaluations as in part b) but change the upper bound of your x range to $x$ = 40? Why do we see this result? \\
+\textbf{d)} Use one of the integration methods we developed in Labs 2 and 3 to evaluate Equation \ref{eqn:besint}. Do your results match those of the scipy module?\\
+\textbf{e)} Based on the results of part b), choose either Equation \ref{eqn:bessum} or Equation \ref{eqn:besint} to use for the remainder of the lab and justify your selection.\\
+\textbf{f)} Use your choice from c) to evaluate $J_1(x)$ on the same $x$ range as part b). \\
 
 \textbf{Question 3:} A necessary component of Equation \ref{eqn:final} is knowing for which $\lambda_m$ $J_0(\lambda_m R) = 0$. Solving for eigenvalues $\lambda_m$ is equivalent to finding the zeros of the Bessel function and dividing them by $R$.\\
-\textbf{a)} Use any of the zero-finding methods of Lab 4 to find the first five zeros of $J_0$. Use the $J_0$ you chose in question 2 part c). Translate these zeros to eigenvalues $\lambda_m$. Compare your results with the output of scipy.special.jn\_zeros and adjust your accuracy until you get a match to 7 significant figures. What accuracy was needed to reproduce scipy's result?\\
-\textbf{b)} Although Bessel functions are not periodic, the location of their nth zeros can be approximated for sufficiently high n, using $\pi\left(n-1/4\right)$. Use this to approximate the location of the 5th, 50th and 500th zeros. Does your location for the 5th zero match what you found in part a)? Compare your result with scipy.special.jn\_zeros. Is this a good approximation?  \\
+\textbf{a)} Use any of the zero-finding methods of Lab 4 to find the first five zeros of $J_0$. Use the $J_0$ you chose in question 2 part e). Compare your results with the output of scipy.special.jn\_zeros and adjust your accuracy until you get a match to 9 significant figures. What (approximate) accuracy was needed to reproduce scipy's result?\\
+\textbf{b)} Although Bessel functions are not periodic, the location of their nth zero can be approximated using $\pi\left(n-1/4\right)$. Use this to approximate the location of the 5th, 50th and 500th zeros. Does your location for the 5th zero match what you found in part a)? Compare your result with scipy.special.jn\_zeros. For which n is this a good approximation?  \\
 
-\textbf{Question 4:} We now have all the tools we need to construct Equation \ref{eqn:final}. Create a function 
-
+\textbf{Question 4:} We now have all the tools we need to construct Equation \ref{eqn:final}. Create a function that produces the temperature at given time and position with a set number of terms for the sum. Use initial cylinder temperature $T_0 = 50$, radius $R = 10$ and $c = 1.25$, all with arbitrary units. Now use your function to create an animation of your function as time goes from 0 to 100 in the arbitrary units of the problem. Can you explain the shape of the function at $t = 0$? Does the function behave as expected at time proceeds?
 
 \appendix
 
