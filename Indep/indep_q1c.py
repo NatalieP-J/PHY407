@@ -21,7 +21,7 @@ def timeit(fn,indep):
 	end = clock()
 	return val, end-start
 
-indeps = [1000,10,10,100,100,500,1000,1000,1500,1500,2000]
+indeps = [1000,10,10,100,100,500,500,1000,1000]
 
 for i in indeps:
 	try:

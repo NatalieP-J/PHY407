@@ -3,38 +3,55 @@ from gaussxw import gaussxwab
 import matplotlib.pyplot as plt
 from scipy.special import jn_zeros
 
-N = 100
-b = np.pi
-a = 0
+###############################################################################
 
-taus,weights = gaussxwab(N,b,a)
+# This code animates the temperature in a cylinder as a function of radius over
+# time.
 
-R = 10.
-T0 = 50.
-c = 1.25
+################################## CONSTANTS ##################################
 
-def gaussint(fn,x,w,args = False):
+Nint = 100 # Number of subintervals for Gaussian integration
+b = np.pi # Upper bound of Bessel function integral
+a = 0 # Lower bound of Bessel function integral
+
+# Generate points and weights for Gaussian integration
+taus,weights = gaussxwab(Nint,a,b)
+
+# Set parameters for the cylinder
+R = 10. # Radius of the cylinder
+T0 = 50. # Initial temperature of the cylinder
+c = 1.25 # Speed at which heat change propagates through the cylinder
+
+################################## FUNCTIONS ##################################
+
+def gaussint(fn,tau,w,args = False):
     """
     Returns the integral of fn from lowlim to uplim using Gaussian 
     quadrature with Nsamp sample points.
     """ 
     s = np.zeros(np.shape(args))
-    for i in range(len(x)):
-        s += w[i]*fn(x[i],args) # evaluate fn at points and weight it
+    for i in range(len(tau)):
+        s += w[i]*fn(tau[i],args) # evaluate fn at points and weight it
     return s
 
+# Integrand to compute the 0th order Bessel function of the first kind
 def J0int(tau,x):
     return np.cos(x*np.sin(tau))
 
+# Returns the 0th order Bessel function of the first kind evaluated at x
 def J0(x):
     return (1./np.pi)*gaussint(J0int,taus,weights,args = x)
 
+# Integrand to compute the 1st order Bessel function of the first kind
 def J1int(tau,x):
 	return np.cos(tau-x*np.sin(tau))
 
+# Returns the 1st order Bessel function of the first kind evaluated at x 
 def J1(x):
 	return (1./np.pi)*gaussint(J1int,taus,weights,args = x)
 
+# Based on guess initial, this function returns the location of the nearest
+# zero of fn to a precision tol
 def secant(initial,fn,tol):
     x1,x2 = initial
     while True:
@@ -51,72 +68,85 @@ def secant(initial,fn,tol):
             break
     return x3
 
+# Return the approximate location of the nth zero of the 0th order Bessel
+# function of the first kind
 def approxzero(n):
     return np.pi*(n-0.25)
 
+# Find the first nterms zeros of J0 to precision tol
 def findlambda(nterms,tol):
-	lambdas = []
+	zerolocs = []
 	for n in range(1,nterms+1):
-		loc = approxzero(n)
+		loc = approxzero(n) #Use approximation scheme for initial guess
 		init = [loc,loc+0.1]
-		lambdas.append(secant(init,J0,tol))
-	return np.array(lambdas)/R
+		zerolocs.append(secant(init,J0,tol))
+	return np.array(zerolocs)/R
 
-def heatfn(t,lams,nterms,J0vals,J1vals):
-	heat = np.zeros(np.shape(J0vals[0]))
-	for n in range(nterms):
+# Return the temperature profile at time t with
+# Requires a time t, a list of zero locations lams, a 2D array where each row
+# is J0(lams[i]*x) and a 1D array J1(lams*R) 
+def heatfn(t,lams,J0vals,J1vals):
+	heat = np.zeros(np.shape(J0vals[0])) # Initialize sum
+	for n in range(len(lams)): # Sum over chosen number of terms
 		heat += (np.exp(-c*t*lams[n]**2)/(lams[n]*R))*(J0vals[n]/J1vals[n])
 	return 2*T0*heat
 
+################################## MAIN PROGRAM ##################################
+
+# Generate array in radius
 xmin = 0
 xmax = R
 delx = 0.01
 x = np.arange(xmin,xmax+delx,delx)
+
+# Generate array in time
 tmin = 0
 tmax = 100.
 delt = 0.5
 t = np.arange(tmin,tmax+delt,delt)
-N = 50
-tol = 1e-9
-lams1 = findlambda(N,tol)
-lams2 = jn_zeros(0,N)
-masterx1 = np.zeros((len(lams1),len(x)))
-masterx2 = np.zeros((len(lams2),len(x)))
-for i in range(len(lams1)):
-	masterx1[i] = lams1[i]*x
-	masterx2[i] = lams2[i]*x
 
-J0vals1 = J0(masterx1)
-J0vals2 = J0(masterx2)
-J1vals1 = J1(lams1*R)
-J1vals2 = J1(lams2*R)
-u1 = heatfn(0,lams1,N,J0vals1,J1vals1)
-u2 = heatfn(0,lams2,N,J0vals2,J1vals2)
+# Find zeros and evaluate J0, J1 and appropriate locations
+N = 60 # Number of terms in the sum
+
+tol = 1e-9 # Tolerance with which to find zeros
+lams = findlambda(N,tol)  # Find zeros
+
+masterx = np.zeros((len(lams),len(x))) # Create array to feed to J0
+for i in range(len(lams)):
+	masterx[i] = lams[i]*x # Fill in array
+
+# Generate J0 and J1 to be used for all time
+J0vals = J0(masterx)
+J1vals = J1(lams*R)
+# Compute the intial heat function
+u0 = heatfn(0,lams,J0vals,J1vals)
 
 # Set up animation
 plt.figure()
 # Choose axes
 ax = plt.axes(xlim = (xmin,xmax),ylim=(0,T0+0.1*T0))
-line = ax.plot(x,u1)
+# Start with initial heat function
+line = ax.plot(x,u0)
+plt.xlabel('Radius')
+plt.ylabel('Temperature')
+# Loop over time, animating as you go
 for i in range(1,len(t)):
-	unew = heatfn(t[i],lams1,N,J0vals1,J1vals1)
+	unew = heatfn(t[i],lams,J0vals,J1vals)
 	line[0].set_ydata(unew)
 	ax.set_title('t = {0} s'.format(i*delt))
 	plt.draw()
 
-plt.figure()
-plt.subplot(411)
-plt.plot(x,u1)
-plt.ylim(0,60)
-plt.subplot(412)
-plt.plot(x,heatfn(0.005,lams1,N,J0vals1,J1vals1))
-plt.ylim(0,60)
-plt.subplot(413)
-plt.plot(x,heatfn(10,lams1,N,J0vals1,J1vals1))
-plt.ylim(0,60)
-plt.subplot(414)
-plt.plot(x,heatfn(100,lams1,N,J0vals1,J1vals1))
-plt.ylim(0,60)
+################################## PLOT ##################################
 
-#J0vals = J0()
+# Create a plot of our snapshots
+plt.figure()
+plt.title('Temperature in a cylinder as a function of radius')
+plt.plot(x,u0,label = 't = 0')
+plt.plot(x,heatfn(0.005,lams,J0vals,J1vals),label = 't = 0.005')
+plt.plot(x,heatfn(10,lams,J0vals,J1vals),label = 't = 10')
+plt.plot(x,heatfn(80,lams,J0vals,J1vals),label = 't = 80')
+plt.ylim(0,60)
+plt.xlabel('Radius')
+plt.ylabel('Temperature')
+plt.legend(loc = 'best')
 

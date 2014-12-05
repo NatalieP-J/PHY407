@@ -1,4 +1,4 @@
-documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt]{article}
 
 \usepackage{rotating}
 \usepackage[top=1.25in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
@@ -32,14 +32,16 @@ documentclass[a4paper,12pt]{article}
     Factorial & math.factorial & Recursive & Stirling & Memoization\\
     \hline
     \hline
-    5! & mathtime & recursetime & stirlingtime & memotime\\
+    10! & $3.0\e{-6}$ & $2.2\e{-5}$& $8.0\e{-6}$ & $3.7\e{-6}$\\
     \hline
-    10! & mathtime & recursetime & stirlingtime & memotime\\
+    100! & $1.6\e{-5}$ & $2.1\e{-4}$ & $1.0\e{-6}$ & $4.0\e{-6}$\\
     \hline
-    100! & mathtime & recursetime & stirlingtime & memotime\\
+    500! & $1.2\e{-4}$ & $1.0\e{-3}$ & Overflowed & $2.2\e{-5}$\\
     \hline
-    1000! & mathtime & failed & failed & memotime
+    1000! & $5.0\e{-4}$& Recursion exceeded & Overflowed & $3.9\e{-5}$\\
+    \hline
   \end{tabular}
+  \caption{}
 \end{table}
 
 It is obvious from this table that math.factorial is consistently faster than any function I write. This is because the math module relies on precomplied C libraries, inherently faster to run than interpreted languages like Python. In addition, math.factorial uses a divide and conquer method to compute factorials, reducing the time needed to evaluate.
@@ -100,16 +102,37 @@ since this is quicker and easier to evaluate than an arbitrarily large sum, and 
 
 \textbf{part a)}
 
-The required accuracy was $1\e{-5}$
+The required accuracy was $1\e{-5}$\\
 
 \textbf{part b)}
 
 \begin{table}[H]
   \centering
-  \begin{tabular}{|c||c||c|}
+  \begin{tabular}{|c||c||c|c|}
     \hline
-    Zero Index & Approximation Scheme & scipy.special.jn\_zeros\\
+    Zero Index & Approximation Scheme & scipy.special.jn\_zeros & Difference\\
+    \hline
+    \hline
+    5 & 14.9226 & 14.9309 & $8.3\e{-3}$\\
+    \hline
+    50 & 156.2942 & 156.2950 & $7\e{-4}$\\
+    \hline
+    500 & 1570.0109 & 1570.0110 & $8\e{-5}$\\
+    \hline
   \end{tabular}
 \end{table}
+
+Obviously our approximation is best for large values of the zero index.
+
+\section{Question 4} 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \linewidth]{indepq4.png}
+\caption{}
+\label{fig:q4}
+\end{figure}
+
+At time 0, the temperature profile does not obey the initial conditions of the problem. This is because we are forced to truncate the solution to a finite number of terms in the sum. We are trying to use an oscillatory function to model a step function. We saw this exact sort of problem in a past lab when we tried to model a square wave with a Fourier series. As time goes on, the function smooths in the way we would expect. Further more, the total temperature decreases everywhere over time as expected, with low temperature regions moving inward from the outer edge where the temperature is fixed.
 
 \end{document}
