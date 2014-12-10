@@ -1,7 +1,6 @@
 import numpy as np
 from gaussxw import gaussxwab
 import matplotlib.pyplot as plt
-from scipy.special import jn_zeros
 
 ###############################################################################
 
@@ -106,7 +105,7 @@ delt = 0.5
 t = np.arange(tmin,tmax+delt,delt)
 
 # Find zeros and evaluate J0, J1 and appropriate locations
-N = 60 # Number of terms in the sum
+N = 50 # Number of terms in the sum
 
 tol = 1e-9 # Tolerance with which to find zeros
 lams = findlambda(N,tol)  # Find zeros

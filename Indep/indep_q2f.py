@@ -20,7 +20,7 @@ def J1int(tau,x):
 	return np.cos(tau - x*np.sin(tau))
 
 xmin = 0
-xmax = 40
+xmax = 20
 step = 0.01
 kmax = 50
 x = np.arange(xmin,xmax+step,step)

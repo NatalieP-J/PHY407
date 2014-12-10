@@ -1,7 +1,7 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage{rotating}
-\usepackage[top=1.25in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
+\usepackage[top=1.25in, bottom=1.25in, left=1.0in, right=1.0in]{geometry}
 \usepackage{graphicx}
 \usepackage[numbers,square,sort&compress]{natbib}
 \usepackage{setspace}
@@ -18,7 +18,7 @@
 
 \begin{document}
 \onehalfspacing
-\title{Special Functions and Solving the Heat Equation for a Cold Cylinder}
+\title{Lab Instructions: Special Functions and Solving the Heat Equation for a Cold Cylinder}
 \author{Natalie Price-Jones, 999091021}
 \date{4 December 2014}
 \affil{\small{natalie.price.jones@mail.utoronto.ca}}
@@ -67,7 +67,7 @@ The solutions to this equation are order zero Bessel functions of the first ($J_
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = \linewidth]{bessel.png}
+\includegraphics[width = 0.8\linewidth]{bessel.png}
 \caption{Zero order Bessel functions, created using scipy.special module.}
 \label{fig:bes}
 \end{figure}
@@ -93,15 +93,11 @@ J_n(x) &=& \sum_{k=0}^{\infty}\frac{(-1)^k}{k!(k+n)!}\left(\frac{x}{2}\right)^{2
 
 \section{Computational Background}
 
-\subsection{Memoization}
+\subsection*{Memoization}
 
 Memoization is a very fancy term for a relatively simple idea: taking advantage of a computer's memory rather than its processor. Imagine you have many iterations of a complicated calculation, and each new iteration depends on the previous one. Obviously you would want to save the results of your calcuation so you can use previous results in your current iterations without recalculating them. In this course, we have used lists and arrays to track these sorts of numbers. The memoization tool of choice is usually dictionaries, as this allows you to link an independent variable to the results you want to store. This means you don't need to know anything about the list - just the appropriate independent variable to call your result.
 
-But this isn't so different from what we've already done, storing the results of various iterations in lists. We can take the advantage a step further by saving our results, then calling them in when we need to make further calcuations.
-
-\subsection{Interpolation}
-
-Another method to minimize time consuming calculation is interpolation. Suppose you want to know the value of a smooth function at many points, but computing the value of the function takes far too long to specifically evaluate it at every location. The obvious solution is to evaluate the function at only a few points, then use these values to infer what the function looks like everywhere else. There are a few caveats: as I've said, you need your function to be smooth and continuous. If your function isn't well behaved, you'll need a near infinite number of points to calculate its shape. And even when your function is smooth and continuous, you still to be sure that you are sampling the right number of points in order to truly describe the function.
+But this isn't so different from what we've already done, storing the results of various iterations in lists. We can take the advantage a step further by saving our results, then calling them in when we need to make further calcuations. In this lab, it will only be necessary to use the dictionary method.
 
 \section{Lab Instructions}
 
@@ -122,7 +118,7 @@ For grading purposes, only hand in the following parts. Ensure codes are well co
     \item Turn in plots for b) and c) with all curves for all three numbers of sum terms on the same plot. 
     \item Hand in a plot for part d) comparing your curve with the results of the scipy module. 
     \item Hand in a plot of part f). 
-    \item Provide short answers for parts b),c) and e).
+    \item Provide short answers for parts b), c) and e).
   \end{itemize}
 
 \item Q3: 
@@ -134,16 +130,16 @@ For grading purposes, only hand in the following parts. Ensure codes are well co
 \item Q4:
   \begin{itemize}
     \item Hand in your code
-    \item Hand in a snapshot of your animations at t = 0, 0.005,10 and 100.
+    \item Hand in a snapshot of your animations at t = 0, 0.005, 10 and 80.
     \item Provide a short answer to the question asked.
   \end{itemize}
 \end{itemize}
 \\
 \textbf{Question 1:} One of the biggest challenges in computing Bessel functions using Equation \ref{eqn:bessum} lies in finding factorials effeciently. Python's built in math module provides a function to do this (math.factorial).\\
-\textbf{a)} Write a recursive factorial function and compute factorials for 10,100,500. What happens when you try to find the factorial of 1000? How does the speed of the computation compare with using math.factorial?\\
+\textbf{a)} Write a recursive factorial function and compute factorials for 10, 100, 500. What happens when you try to find the factorial of 1000? How does the speed of the computation compare with using math.factorial?\\
 \textbf{b)} A common way to approximate large factorials is to use Stirling's approximation, $\ln(n!) \approx n\ln(n) - n$. Can we compute factorial of 1000 with this? How does $\ln(1000!)$ compare with math.log(math.factorial(1000))? What about $\ln(1\e{5}!)$ compared with math.log(math.factorial($1\e{5}$))? Which computation takes longer?\\
 \textbf{c)} Another technique that can be used to improve factorial computation is memoization, described in the Computational Background. Using memoization write a new recursive function that computes the a factorial. Use this new function, find the factorial (in order) of 1000, 10, 100, 500, 1000. What happened when you tried to evaluate 1000! each time?  With this in mind, explain one advantage and one disadvantage of this method of computing factorials. \\
-\textbf{d)} Choose one of the three fuctions you developed to use in the remainder of the program and explain your choice.\\
+\textbf{d)} Choose one of the three fuctions you developed to use in the remainder of the lab and explain your choice.\\
 
 \textbf{Question 2:} \\
 \textbf{a)} Simplify Equations \ref{eqn:bessum} and \ref{eqn:besint} for the cases where $n = 0$ and $n = 1$.\\
@@ -155,13 +151,11 @@ For grading purposes, only hand in the following parts. Ensure codes are well co
 
 \textbf{Question 3:} A necessary component of Equation \ref{eqn:final} is knowing for which $\lambda_m$ $J_0(\lambda_m R) = 0$. Solving for eigenvalues $\lambda_m$ is equivalent to finding the zeros of the Bessel function and dividing them by $R$.\\
 \textbf{a)} Use any of the zero-finding methods of Lab 4 to find the first five zeros of $J_0$. Use the $J_0$ you chose in question 2 part e). Compare your results with the output of scipy.special.jn\_zeros and adjust your accuracy until you get a match to 9 significant figures. What (approximate) accuracy was needed to reproduce scipy's result?\\
-\textbf{b)} Although Bessel functions are not periodic, the location of their nth zero can be approximated using $\pi\left(n-1/4\right)$. Use this to approximate the location of the 5th, 50th and 500th zeros. Does your location for the 5th zero match what you found in part a)? Compare your result with scipy.special.jn\_zeros. For which n is this a good approximation?  \\
+\textbf{b)} Although Bessel functions are not periodic, the location of their nth zero can be approximated using $\pi\left(n-1/4\right)$. This result comes from the fact that the Bessel functions can be approximated as sinusoids. Use this to approximate the location of the 5th, 50th and 500th zeros. Does your location for the 5th zero match what you found in part a)? Compare your result with scipy.special.jn\_zeros. For which n is this a good approximation?  \\
 
-\textbf{Question 4:} We now have all the tools we need to construct Equation \ref{eqn:final}. Create a function that produces the temperature at given time and position with a set number of terms for the sum. Use initial cylinder temperature $T_0 = 50$, radius $R = 10$ and $c = 1.25$, all with arbitrary units. Now use your function to create an animation of your function as time goes from 0 to 100 in the arbitrary units of the problem. Can you explain the shape of the function at $t = 0$? Does the function behave as expected at time proceeds?
+\textbf{Question 4:} We now have all the tools we need to construct Equation \ref{eqn:final}. Create a function that produces the temperature at given time and position with 60 terms in the sum of Equation \ref{eqn:final}. Use initial cylinder temperature $T_0 = 50$, radius $R = 10$ and $c = 1.25$, all with arbitrary units. Now use your function to create an animation of your function as time goes from 0 to 100 in the arbitrary units of the problem. Can you explain the shape of the function at $t = 0$? How could we improve this shape? Does the function behave as expected at time proceeds?
 
-\appendix
-
-\section{Deriving a Closed Form Solution to the Heat Equation}
+\section*{Appendix: Deriving a Closed Form Solution to the Heat Equation}
 \label{app:deriv}
 
 We have $S(z) = S(\lambda s) \sim J_0(\lambda s)$. The boundary condition in Equation \ref{eqn:pde} requires that our choice of $\lambda$ must satisfy $J_0(\lambda R) = 0$. However we saw in Figure \ref{fig:bes} that Bessel functions are oscillatory, and so there are infinite choices for $\lambda$ that satisfy this requirement. If we denote them $\lambda_m$ then we know $u(t,s)$ is a linear combination over all possible eigenvalues.
@@ -213,4 +207,16 @@ u(t,s) = \sum_{m=1}^{\infty}\frac{2 T_0}{\lambda_m R\, J_1(\lambda_m R)} e^{-\la
 \end{eqnarray}
 %
 which matches Equation \ref{eqn:final} above.
+
+\section*{References}
+For the derivation of the solution to the heat equation, see:\\
+M.\"{O}zi\c{s}ik, \emph{Heat Conduction}, 2nd Ed. (Wiley, New York, NY, 1993), pp.118-119.\\
+\\
+For the source of material about the Bessel functions, see:\\
+M. Abramowitz and I. A. Stegun, \emph{Handbook of Mathematical Functions}, 9th Ed. (Dover, New York, NY, 1964), pp.360.\\
+and\\
+N. M. Temme \emph{Special Functions}, 2nd Ed. (Wiley, New York, NY, 1996), pp.228-231.\\
+\\
+For a deeper discussion of memoization, see:\\
+T. Cormen \emph{et al.}, \emph{Introduction to Algorithms}, 3rd Ed. (MIT Press, Cambridge, MA, 2009), pp.365.
 \end{document}

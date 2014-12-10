@@ -6,6 +6,18 @@ from math import factorial
 from gaussxw import gaussxwab
 plt.ion()
 
+###############################################################################
+
+# This code uses the integral form of the Bessel functions to find J0
+
+################################## CONSTANTS ##################################
+
+Nint = 100 # Number of subintervals for Gaussian integration
+b = np.pi # Upper bound of Bessel function integral
+a = 0 # Lower bound of Bessel function integral
+
+################################## FUNCTIONS ##################################
+
 def gaussint(fn,Nsamp,lowlim,uplim,args = False):
 	"""
 	Returns the integral of fn from lowlim to uplim using Gaussian 
@@ -17,30 +29,27 @@ def gaussint(fn,Nsamp,lowlim,uplim,args = False):
 		s += w[i]*fn(x[i],args) # evaluate fn at points and weight it
 	return s
 
-def J0sum(x,kmax):
-	Jval = np.zeros(np.shape(x))
-	for k in range(kmax):
-		Jvaladd = (((-1.)**k)/(float(factorial(k))**2))*(x/2.)**(2*k)
-		Jval += Jvaladd
-	return Jval
-
+# Integrand to find J0
 def J0int(tau,x):
 	return np.cos(x*np.sin(tau))
 
+################################## MAIN PROGRAM ##################################
+
+# Create array in independent variable x
 xmin = 0
 xmax = 20
 step = 0.01
-kmax = 75
-kmaxs = [25,50,75]
 x = np.arange(xmin,xmax+step,step)
 
-a = 0
-b = np.pi
-N = 100
-
-J0_integral = (1./np.pi)*gaussint(J0int,N,a,b,args = x)
+# Evaluate J0 on chosen x range
+J0_integral = (1./np.pi)*gaussint(J0int,Nint,a,b,args = x)
+# Find the scipy J0 function
 sci = jn(0,x)
 
+################################## PLOT ##################################
+
+# Make a plot comparing sci and J0_integral and include a subplot with
+# residuals between the two.
 plt.figure()
 gs = gridspec.GridSpec(2, 1, height_ratios=[2.5, 1]) 
 plt.subplot(gs[0])

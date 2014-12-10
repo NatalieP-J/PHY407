@@ -10,35 +10,35 @@ from time import clock
 
 '''
 Part a)
-1000!	 my function: exceeded recursion depth 	 math module: 0.000672999999977719 s
-10!	 my function: 1.80000000113978e-05 s 	 math module: 2.00000002337219e-06 s 	 residual %: 0.0
-10!	 my function: 2.2999999998774e-05 s 	 math module: 6.00000001327317e-06 s 	 residual %: 0.0
-100!	 my function: 0.000188000000008515 s 	 math module: 1.79999999829761e-05 s 	 residual %: 0.0
-100!	 my function: 8.30000000178188e-05 s 	 math module: 2.00000000063483e-05 s 	 residual %: 0.0
-500!	 my function: 0.000942000000009102 s 	 math module: 0.000228999999990265 s 	 residual %: 0.0
-500!	 my function: 0.000638000000009242 s 	 math module: 0.000212000000004764 s 	 residual %: 0.0
-1000!	 my function: exceeded recursion depth 	 math module: 0.000578000000018619 s
-1000!	 my function: exceeded recursion depth 	 math module: 0.000564000000025544 s
+1000!	 my function: exceeded recursion depth 	 math module: 0.000373999999993657 s
+10!	 my function: 1.49999999905504e-05 s 	 math module: 1.99999999495049e-06 s residual %: 0.0
+10!	 my function: 2.60000000196214e-05 s 	 math module: 5.00000001579792e-06 s residual %: 0.0
+100!	 my function: 0.000154999999978145 s 	 math module: 1.59999999880256e-05 s residual %: 0.0
+100!	 my function: 0.000188000000008515 s 	 math module: 8.99999997727718e-06 s residual %: 0.0
+500!	 my function: 0.000412000000011403 s 	 math module: 0.000188000000008515 s residual %: 0.0
+500!	 my function: 0.000855000000001382 s 	 math module: 0.000151999999985719 s residual %: 0.0
+1000!	 my function: exceeded recursion depth 	 math module: 0.000454999999988104 s
+1000!	 my function: exceeded recursion depth 	 math module: 0.000548000000009097 s
 Part b)
-1000!	 my function: overflowed the exp 	 math module: 0.000615000000010468 s
-10!	 my function: 1.10000000006494e-05 s 	 math module: 1.99999999495049e-06 s 	 residual %: 0.000220264657948066
-10!	 my function: 3.99999998990097e-06 s 	 math module: 1.99999999495049e-06 s 	 residual %: 0.000220264657948066
-100!	 my function: 6.9999999823267e-06 s 	 math module: 1.59999999880256e-05 s 	 residual %: 2.68811714181602e-155
-100!	 my function: 2.99999999242573e-06 s 	 math module: 1.59999999880256e-05 s 	 residual %: 2.68811714181602e-155
-500!	 my function: overflowed the exp 	 math module: 0.000205999999991491 s
-500!	 my function: overflowed the exp 	 math module: 0.000182999999992717 s
-1000!	 my function: overflowed the exp 	 math module: 0.000529000000000224 s
-1000!	 my function: overflowed the exp 	 math module: 0.000578000000018619 s
+1000!	 my function: overflowed the exp 	 math module: 0.000381000000004406 s
+10!	 my function: 5.00000001579792e-06 s 	 math module: 1.99999999495049e-06 s residual %: 13.7612875249463
+10!	 my function: 2.00000002337219e-06 s 	 math module: 9.99999997475243e-07 s residual %: 13.7612875249463
+100!	 my function: 9.99999997475243e-07 s 	 math module: 1.59999999880256e-05 s residual %: 0.88589720368673
+100!	 my function: 9.99999997475243e-07 s 	 math module: 1.00000000031741e-05 s residual %: 0.88589720368673
+500!	 my function: overflowed the exp 	 math module: 0.000172999999989543 s
+500!	 my function: overflowed the exp 	 math module: 0.000141999999982545 s
+1000!	 my function: overflowed the exp 	 math module: 0.000465999999988753 s
+1000!	 my function: overflowed the exp 	 math module: 0.000374999999991132 s
 Part c)
-1000!	 my function: exceeded recursion depth 	 math module: 0.000366000000013855 s
-10!	 my function: 1.19999999981246e-05 s 	 math module: 1.99999999495049e-06 s 	 residual %: 0.0
-10!	 my function: 1.99999999495049e-06 s 	 math module: 9.99999997475243e-07 s 	 residual %: 0.0
-100!	 my function: 0.000191999999998416 s 	 math module: 1.59999999880256e-05 s 	 residual %: 0.0
-100!	 my function: 5.99999998485146e-06 s 	 math module: 1.29999999955999e-05 s 	 residual %: 0.0
-500!	 my function: 0.00378200000000106 s 	 math module: 0.000180999999997766 s 	 residual %: 0.0
-500!	 my function: 2.2999999998774e-05 s 	 math module: 0.000131999999979371 s 	 residual %: 0.0
-1000!	 my function: 0.0198450000000037 s 	 math module: 0.000607000000002245 s 	 residual %: 0.0
-1000!	 my function: 4.30000000051223e-05 s 	 math module: 0.000373999999993657 s 	 residual %: 0.0
+1000!	 my function: exceeded recursion depth 	 math module: 0.000551000000001522 s
+10!	 my function: 1.89999999804513e-05 s 	 math module: 1.99999999495049e-06 s residual %: 0.0
+10!	 my function: 5.00000001579792e-06 s 	 math module: 2.00000000063483e-05 s residual %: 0.0
+100!	 my function: 0.000180999999997766 s 	 math module: 1.00000000031741e-05 s residual %: 0.0
+100!	 my function: 5.99999998485146e-06 s 	 math module: 9.00000000569889e-06 s residual %: 0.0
+500!	 my function: 0.00262599999999225 s 	 math module: 0.000194000000021788 s residual %: 0.0
+500!	 my function: 3.59999999943739e-05 s 	 math module: 0.000166000000007216 s residual %: 0.0
+1000!	 my function: 0.0158119999999826 s 	 math module: 0.000562999999999647 s residual %: 0.0
+1000!	 my function: 4.10000000101718e-05 s 	 math module: 0.000629000000003543 s residual %: 0.0
 '''
 
 
@@ -105,8 +105,8 @@ for i in indeps:
 		facts = timeit(factorial_b,i)
 		maths = timeit(math.factorial,i)
 		# Compute the percentage of the factorial value that the residual makes up
-		resfrac = (math.exp(abs(math.log(facts[0])-math.log(maths[0])))/float(maths[0]))*100
-		print '{0}!\t my function: {1:.15} s \t math module: {2:.15} s \t residual %: {3:.15}'.format(i,facts[1],maths[1],resfrac)
+		resfrac = (abs(math.log(facts[0])-math.log(maths[0]))/math.log(maths[0]))*100
+		print '{0}!\t my function: {1:.15} s \t math module: {2:.15} s \t residual % (in exp): {3:.15}'.format(i,facts[1],maths[1],resfrac)
 	except OverflowError as edetails:
 		maths = timeit(math.factorial,i)
 		print'{0}!\t my function: overflowed the exp \t math module: {1:.15} s'.format(i,maths[1])

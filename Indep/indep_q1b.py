@@ -5,10 +5,10 @@ from matplotlib import gridspec
 from numpy import array
 
 def factorial(x):
-	return math.exp(x*math.log(x)-x)
+	return math.exp((x*math.log(x))-x)
 
 def lnfactorial(x):
-	return x*math.log(x) - x
+	return (x*math.log(x)) - x
 
 def lnmath(x):
 	return math.log(math.factorial(x))

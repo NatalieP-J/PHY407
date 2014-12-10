@@ -51,7 +51,7 @@ for i in range(len(inits)):
     zeros.append(secant(inits[i],J0,tol))
 
 zeros = np.array(zeros)
-sci = jn_zeros(0,500)
+sci = jn_zeros(0,5)
 
 
 
